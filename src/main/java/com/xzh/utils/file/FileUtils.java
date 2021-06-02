@@ -161,6 +161,26 @@ public class FileUtils {
     }
 
     /**
+     * 获取文件列表
+     *
+     * @param sourceFolderDirectory 源文件夹目录
+     * @return
+     */
+    public static List<File> getFileList(String sourceFolderDirectory) {
+        List<File> fileList = new ArrayList<>();
+        File dir = new File(sourceFolderDirectory);
+        // 该文件目录下文件全部放入数组
+        File[] files = dir.listFiles();
+        if (files == null) {
+            return null;
+        }
+        for (File file : files) {
+            fileList.add(file);
+        }
+        return fileList;
+    }
+
+    /**
      * 获取文件名列表 不递归查
      *
      * @param sourceFolderDirectory
