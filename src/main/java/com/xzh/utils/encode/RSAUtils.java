@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * RSA2048
+ * RSA工具
  *
  * @author: 向振华
  * @date: 2019/10/17 11:56
@@ -60,7 +60,7 @@ public class RSAUtils {
             Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
             cipher.init(Cipher.DECRYPT_MODE, publicKey);
             byte[] bytes = rsaSplitCodec(cipher, Cipher.DECRYPT_MODE, Base64.decodeBase64(data));
-            return new String(bytes, "UTF-8");
+            return new String(bytes, StandardCharsets.UTF_8);
         } catch (Exception e) {
             throw new RuntimeException("解密字符串[" + data + "]时遇到异常", e);
         }
@@ -121,7 +121,7 @@ public class RSAUtils {
      * @return 加密或解密后得到的数据的字节数组
      */
     private static byte[] rsaSplitCodec(Cipher cipher, int opmode, byte[] datas) {
-        int maxBlock = 0;
+        int maxBlock;
         if (opmode == Cipher.DECRYPT_MODE) {
             maxBlock = 2048 / 8;
         } else {
@@ -156,7 +156,7 @@ public class RSAUtils {
      * @param keysize RSA1024已经不安全了,建议2048
      * @return 经过Base64编码后的公私钥Map, 键名分别为publicKey和privateKey
      */
-    public static Map<String, String> initRSAKey(int keysize) {
+    private static Map<String, String> initRSAKey(int keysize) {
         //为RSA算法创建一个KeyPairGenerator对象
         KeyPairGenerator kpg;
         try {
@@ -174,7 +174,7 @@ public class RSAUtils {
         //得到私钥
         Key privateKey = keyPair.getPrivate();
         String privateKeyStr = Base64.encodeBase64URLSafeString(privateKey.getEncoded());
-        Map<String, String> keyPairMap = new HashMap<String, String>();
+        Map<String, String> keyPairMap = new HashMap<String, String>(4);
         keyPairMap.put("publicKey", publicKeyStr);
         keyPairMap.put("privateKey", privateKeyStr);
         return keyPairMap;
