@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * 获取当前session
+ * 获取当前请求
  *
  * @author 向振华
  * @date 2019年3月22日
  */
-public class HttpUtils {
+public class HttpServletUtils {
 
     /**
      * 获取当前session
