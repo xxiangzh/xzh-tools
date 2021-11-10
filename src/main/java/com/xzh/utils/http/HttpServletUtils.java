@@ -17,21 +17,6 @@ import javax.servlet.http.HttpSession;
 public class HttpServletUtils {
 
     /**
-     * 获取当前session
-     *
-     * @return
-     */
-    public static HttpSession session() {
-        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
-        if (servletRequestAttributes == null) {
-            return null;
-        }
-        HttpServletRequest request = servletRequestAttributes.getRequest();
-        return request.getSession();
-    }
-
-    /**
      * 获取当前响应
      *
      * @return
@@ -57,5 +42,20 @@ public class HttpServletUtils {
             return null;
         }
         return servletRequestAttributes.getRequest();
+    }
+
+    /**
+     * 获取当前session
+     *
+     * @return
+     */
+    public static HttpSession session() {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
+        if (servletRequestAttributes == null) {
+            return null;
+        }
+        HttpServletRequest request = servletRequestAttributes.getRequest();
+        return request.getSession();
     }
 }
