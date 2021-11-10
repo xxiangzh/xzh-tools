@@ -83,7 +83,8 @@ public class RSAUtils {
             Signature signature = Signature.getInstance("SHA256WithRSA");
             signature.initSign(privateKey);
             signature.update(data.getBytes(StandardCharsets.UTF_8));
-            return Base64.encodeBase64URLSafeString(signature.sign());
+            byte[] sign = signature.sign();
+            return Base64.encodeBase64URLSafeString(sign);
         } catch (Exception e) {
             throw new RuntimeException("签名字符串[" + data + "]时遇到异常", e);
         }
