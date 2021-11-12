@@ -44,4 +44,41 @@ public class XmlUtils {
             return null;
         }
     }
+
+    /**
+     * 将XML压缩成一行
+     *
+     * @param xmlString
+     * @return
+     */
+    public static String zipXml(String xmlString) {
+        boolean flag = true;
+        boolean quotesFlag = true;
+        StringBuilder ans = new StringBuilder();
+        String tmp = "";
+        for (int i = 0; i < xmlString.length(); i++) {
+            if ('"' == xmlString.charAt(i)) {
+                ans.append(xmlString.charAt(i));
+                quotesFlag = !quotesFlag;
+            } else if ('<' == xmlString.charAt(i)) {
+                tmp = tmp.trim();
+                ans.append(tmp);
+                flag = true;
+                ans.append(xmlString.charAt(i));
+            } else if ('>' == xmlString.charAt(i)) {
+                if (quotesFlag) {
+                    flag = false;
+                    ans.append(xmlString.charAt(i));
+                    tmp = "";
+                } else {
+                    ans.append(">");
+                }
+            } else if (flag) {
+                ans.append(xmlString.charAt(i));
+            } else {
+                tmp += xmlString.charAt(i);
+            }
+        }
+        return ans.toString();
+    }
 }
