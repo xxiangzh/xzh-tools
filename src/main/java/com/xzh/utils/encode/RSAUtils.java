@@ -83,8 +83,8 @@ public class RSAUtils {
             Signature signature = Signature.getInstance("SHA256WithRSA");
             signature.initSign(privateKey);
             signature.update(data.getBytes(StandardCharsets.UTF_8));
-            byte[] sign = signature.sign();
-            return Base64.encodeBase64URLSafeString(sign);
+            byte[] signBytes = signature.sign();
+            return Base64.encodeBase64URLSafeString(signBytes);
         } catch (Exception e) {
             throw new RuntimeException("签名字符串[" + data + "]时遇到异常", e);
         }
@@ -108,7 +108,8 @@ public class RSAUtils {
             Signature signature = Signature.getInstance("SHA256WithRSA");
             signature.initVerify(publicKey);
             signature.update(data.getBytes(StandardCharsets.UTF_8));
-            return signature.verify(Base64.decodeBase64(sign));
+            byte[] signBytes = Base64.decodeBase64(sign);
+            return signature.verify(signBytes);
         } catch (Exception e) {
             throw new RuntimeException("验签字符串[" + data + "]时遇到异常", e);
         }
