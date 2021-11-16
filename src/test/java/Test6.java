@@ -1,5 +1,3 @@
-package com.xzh.utils;
-
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 

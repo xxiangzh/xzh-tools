@@ -1,6 +1,5 @@
-package com.xzh.utils;
-
 import com.alibaba.fastjson.JSONObject;
+import com.xzh.utils.TokenUtils;
 
 /**
  * @author 向振华

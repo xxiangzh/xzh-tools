@@ -1,4 +1,4 @@
-package com.xzh.utils;
+import com.xzh.utils.DateUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -1,5 +1,3 @@
-package com.xzh.utils;
-
 import com.xzh.utils.file.FileUtils;
 import com.xzh.utils.file.MetadataUtils;
 import org.apache.commons.lang3.StringUtils;

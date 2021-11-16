@@ -1,5 +1,3 @@
-package com.xzh.utils;
-
 import com.xzh.utils.file.FileUtils;
 
 public class Test1 {

@@ -1,4 +1,4 @@
-package com.xzh.utils;
+import com.xzh.utils.CacheUtils;
 
 /**
  * @author 向振华
