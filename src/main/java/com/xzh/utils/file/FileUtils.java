@@ -135,6 +135,31 @@ public class FileUtils {
     }
 
     /**
+     * 获取文件夹列表
+     *
+     * @param sourceFolderDirectory 源文件夹目录
+     * @param isAll                 是否获取全部文件夹
+     * @return
+     */
+    public static List<File> getDirectoryList(String sourceFolderDirectory, boolean isAll) {
+        File dir = new File(sourceFolderDirectory);
+        // 该文件目录下文件全部放入数组
+        File[] files = dir.listFiles();
+        if (files == null) {
+            return null;
+        }
+        for (File file : files) {
+            if (file.isDirectory()) {
+                fileList.add(file);
+                if (isAll) {
+                    getDirectoryList(file.getAbsolutePath(), true);
+                }
+            }
+        }
+        return fileList;
+    }
+
+    /**
      * 获取文件列表
      *
      * @param sourceFolderDirectory 源文件夹目录
@@ -149,11 +174,11 @@ public class FileUtils {
             return null;
         }
         for (File file : files) {
-            if (file.isDirectory() && isAll) {
-                getFileList(file.getAbsolutePath(), true);
-            } else if (file.isDirectory()) {
-                continue;
-            } else {
+            if (file.isDirectory()) {
+                if (isAll) {
+                    getFileList(file.getAbsolutePath(), true);
+                }
+            } else if (file.isFile()) {
                 fileList.add(file);
             }
         }
@@ -241,5 +266,25 @@ public class FileUtils {
             return getName(fileNameList, names, ++n);
         }
         return name;
+    }
+
+    /**
+     * 删除文件夹
+     *
+     * @param file
+     */
+    public static void deleteDirectory(File file) {
+        if (file.isDirectory()) {
+            // 得到当前的路径
+            String[] childFilePaths = file.list();
+            if (childFilePaths == null) {
+                return;
+            }
+            for (String childFilePath : childFilePaths) {
+                File childFile = new File(file.getAbsolutePath() + "/" + childFilePath);
+                deleteDirectory(childFile);
+            }
+        }
+        file.delete();
     }
 }
