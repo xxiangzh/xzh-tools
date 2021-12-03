@@ -19,6 +19,7 @@ public class TxtUtils {
 
     /**
      * 导出txt文件
+     * 如果在content加入\n，文件也会自动换行
      *
      * @param fileName
      * @param content
