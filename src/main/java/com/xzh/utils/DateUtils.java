@@ -18,6 +18,7 @@ public class DateUtils {
     public static final String DATE_SHORT = "yyyyMMddHHmmss";
     public static final String DATE = "yyyy-MM-dd";
     public static final String TIME = "HH:mm:ss";
+    public static final String YM = "yyyy-MM";
     public static final String CRON = "ss mm HH dd MM ? yyyy";
 
     /**
