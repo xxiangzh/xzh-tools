@@ -1,6 +1,6 @@
 import com.xzh.utils.file.FileUtils;
 
-public class Test1 {
+public class FileUtilsCopyTest {
 
     public static void main(String[] args) {
         FileUtils.copyWithoutKey("E:\\B", "E:\\C", new String[]{".png", ".jpg"});

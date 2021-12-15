@@ -10,7 +10,7 @@ import java.util.concurrent.Future;
  * @date 2020/10/15 16:28
  */
 @Slf4j
-public class Test3 {
+public class ThreadTest {
 
     public static void main(String[] args) {
         ExecutorService executorService = ThreadPoolFactory.createFixedThreadPool("xzh");

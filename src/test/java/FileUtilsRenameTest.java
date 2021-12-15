@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.File;
 import java.util.List;
 
-public class Test2 {
+public class FileUtilsRenameTest {
 
     public static void main(String[] args) {
         List<File> fileList = FileUtils.getFileList("E:\\A", true);

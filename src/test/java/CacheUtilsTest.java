@@ -4,7 +4,7 @@ import com.xzh.utils.CacheUtils;
  * @author 向振华
  * @date 2021/02/26 15:55
  */
-public class Test7 {
+public class CacheUtilsTest {
 
     public static void main(String[] args) throws Exception {
         System.out.println(CacheUtils.get("x"));

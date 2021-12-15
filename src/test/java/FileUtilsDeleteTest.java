@@ -7,7 +7,7 @@ import java.util.List;
  * @author 向振华
  * @date 2021/11/22 16:43
  */
-public class Test8 {
+public class FileUtilsDeleteTest {
 
     public static void main(String[] args) {
         String sourceFolderDirectory = "E:\\新建文件夹";

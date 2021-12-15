@@ -1,3 +1,4 @@
+import bean.User;
 import com.alibaba.fastjson.JSONObject;
 import com.xzh.utils.TokenUtils;
 
@@ -5,7 +6,7 @@ import com.xzh.utils.TokenUtils;
  * @author 向振华
  * @date 2020/12/14 16:41
  */
-public class Test4 {
+public class TokenUtilsTest {
     public static void main(String[] args) {
         User user = new User(123L, "xxxzh");
         String json = JSONObject.toJSONString(user);
