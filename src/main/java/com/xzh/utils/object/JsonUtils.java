@@ -1,4 +1,4 @@
-package com.xzh.utils;
+package com.xzh.utils.object;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
