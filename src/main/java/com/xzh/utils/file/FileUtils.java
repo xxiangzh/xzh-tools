@@ -18,25 +18,27 @@ import java.util.stream.Collectors;
  */
 public class FileUtils {
 
-    private static List<File> fileList = new ArrayList<File>();
+    private static List<File> fileList = new ArrayList<>();
 
     /**
      * 根据关键字复制
      *
      * @param sourceFolderDirectory 源文件夹目录
      * @param targetFolderDirectory 目标文件夹目录
-     * @param key                   关键字 （为null或""时 复制所有）
+     * @param includeKeys           关键字 （为null或""时 复制所有）
      */
-    public static void copyByKey(String sourceFolderDirectory, String targetFolderDirectory, String key) {
+    public static void copyByKey(String sourceFolderDirectory, String targetFolderDirectory, String... includeKeys) {
         List<File> fileList = getFileList(sourceFolderDirectory, true);
         if (fileList == null) {
             return;
         }
         for (File file : fileList) {
-            if (key != null && !file.getName().contains(key)) {
-                continue;
+            for (String key : includeKeys) {
+                if (key != null && !file.getName().contains(key)) {
+                    continue;
+                }
+                copy(file.getAbsolutePath(), targetFolderDirectory);
             }
-            copy(file.getAbsolutePath(), targetFolderDirectory);
         }
     }
 
@@ -45,10 +47,10 @@ public class FileUtils {
      *
      * @param sourceFolderDirectory 源文件夹目录
      * @param targetFolderDirectory 目标文件夹目录
-     * @param keys                  关键字数组
+     * @param excludeKeys           排除的关键字
      */
-    public static void copyWithoutKey(String sourceFolderDirectory, String targetFolderDirectory, String... keys) {
-        if (keys == null) {
+    public static void copyWithoutKey(String sourceFolderDirectory, String targetFolderDirectory, String... excludeKeys) {
+        if (excludeKeys == null) {
             return;
         }
         List<File> fileList = getFileList(sourceFolderDirectory, true);
@@ -57,7 +59,7 @@ public class FileUtils {
         }
         boolean flag = true;
         for (File file : fileList) {
-            for (String key : keys) {
+            for (String key : excludeKeys) {
                 if (file.getName().toLowerCase().endsWith(key.toLowerCase())) {
                     flag = false;
                     break;
