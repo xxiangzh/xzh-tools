@@ -137,6 +137,25 @@ public class FileUtils {
     }
 
     /**
+     * 重命名文件扩展名（修改文件格式）
+     *
+     * @param file
+     * @param newExtensionName
+     */
+    public static void renameExtensionName(File file, String newExtensionName) {
+        // 文件夹路径
+        String parent = file.getParent();
+        // 文件名
+        String name = file.getName();
+        // 文件真实名（不含扩展名）
+        String realName = name.substring(0, name.lastIndexOf("."));
+        // 路径名 = 文件夹路径 + 文件真实名 + 文件扩展名
+        String pathname = parent + File.separator + realName + newExtensionName;
+        // 重命名
+        file.renameTo(new File(pathname));
+    }
+
+    /**
      * 获取文件夹列表
      *
      * @param sourceFolderDirectory 源文件夹目录
