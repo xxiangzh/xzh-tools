@@ -14,7 +14,7 @@ public class FileUtilsRenameTest {
             if (StringUtils.isBlank(dateTime)) {
                 continue;
             }
-            FileUtils.rename(file, dateTime);
+            FileUtils.rename(file, dateTime, null);
         }
     }
 }
