@@ -18,8 +18,6 @@ import java.util.stream.Collectors;
  */
 public class FileUtils {
 
-    private static List<File> fileList = new ArrayList<>();
-
     /**
      * 根据关键字复制
      *
@@ -163,6 +161,7 @@ public class FileUtils {
      * @return
      */
     public static List<File> getDirectoryList(String sourceFolderDirectory, boolean isAll) {
+        List<File> fileList = new ArrayList<>();
         File dir = new File(sourceFolderDirectory);
         // 该文件目录下文件全部放入数组
         File[] files = dir.listFiles();
@@ -173,7 +172,10 @@ public class FileUtils {
             if (file.isDirectory()) {
                 fileList.add(file);
                 if (isAll) {
-                    getDirectoryList(file.getAbsolutePath(), true);
+                    List<File> innerFileList = getDirectoryList(file.getAbsolutePath(), true);
+                    if (!CollectionUtils.isEmpty(innerFileList)) {
+                        fileList.addAll(innerFileList);
+                    }
                 }
             }
         }
@@ -188,6 +190,7 @@ public class FileUtils {
      * @return 返回文件列表
      */
     public static List<File> getFileList(String sourceFolderDirectory, boolean isAll) {
+        List<File> fileList = new ArrayList<>();
         File dir = new File(sourceFolderDirectory);
         // 该文件目录下文件全部放入数组
         File[] files = dir.listFiles();
@@ -197,7 +200,10 @@ public class FileUtils {
         for (File file : files) {
             if (file.isDirectory()) {
                 if (isAll) {
-                    getFileList(file.getAbsolutePath(), true);
+                    List<File> innerFileList = getFileList(file.getAbsolutePath(), true);
+                    if (!CollectionUtils.isEmpty(innerFileList)) {
+                        fileList.addAll(innerFileList);
+                    }
                 }
             } else if (file.isFile()) {
                 fileList.add(file);
