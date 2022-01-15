@@ -6,6 +6,7 @@ import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.model.enums.AesKeyStrength;
+import net.lingala.zip4j.model.enums.CompressionLevel;
 import net.lingala.zip4j.model.enums.EncryptionMethod;
 import org.apache.commons.lang3.StringUtils;
 
@@ -39,6 +40,7 @@ public class FileZipUtils {
         File targetFile = new File(targetPathname);
 
         ZipParameters zipParameters = new ZipParameters();
+        zipParameters.setCompressionLevel(CompressionLevel.ULTRA);
         ZipFile zipFile = new ZipFile(targetFile);
         // 是否加密
         if (StringUtils.isNotBlank(password)) {
