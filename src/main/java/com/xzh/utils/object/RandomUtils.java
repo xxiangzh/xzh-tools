@@ -20,4 +20,14 @@ public class RandomUtils {
         String numeric = RandomStringUtils.randomNumeric(n);
         return !numeric.startsWith("0") ? numeric : code(n);
     }
+
+    /**
+     * 获取n位随机汉字
+     *
+     * @param n
+     * @return
+     */
+    private static String chinese(Integer n) {
+        return RandomStringUtils.random(n, 0x4e00, 0x9fa5, false, false);
+    }
 }
