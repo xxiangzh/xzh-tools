@@ -83,6 +83,9 @@ public class ListTest {
         //取出集合中的某字段封装在list
         List<String> collect1 = shopCarList.stream().map(ShopCar::getName).collect(Collectors.toList());
 
+        // 将集合中数据聚合到map，name为key，shopCar全部放在一个list中作为value
+        Map<String, List<ShopCar>> collect11= shopCarList.stream().collect(Collectors.groupingBy(ShopCar::getName));
+
         //取出集合中两个字段封装在map，注意map的key必须唯一（即：shopCarList的name唯一）
         Map<String, Integer> collect2 = shopCarList.stream().collect(Collectors.toMap(ShopCar::getName, ShopCar::getCount));
 
