@@ -7,7 +7,7 @@ import java.util.Random;
  * @author 向振华
  * @date 2022/01/15 11:35
  */
-public class NameUtils {
+public class RandomNameUtils {
 
     /**
      * 随机获取姓名

@@ -26,6 +26,7 @@ public class RandomUtils {
 
     /**
      * 获取n位数随机数
+     * 首位不为0
      *
      * @param n
      * @return
@@ -43,5 +44,15 @@ public class RandomUtils {
      */
     private static String chinese(Integer n) {
         return RandomStringUtils.random(n, 0x4e00, 0x9fa5, false, false);
+    }
+
+    /**
+     * 获取n位随机字母
+     *
+     * @param n
+     * @return
+     */
+    private static String alphabetic(Integer n) {
+        return RandomStringUtils.randomAlphabetic(n);
     }
 }
