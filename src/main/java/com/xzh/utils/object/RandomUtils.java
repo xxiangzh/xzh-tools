@@ -2,6 +2,7 @@ package com.xzh.utils.object;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import java.math.BigDecimal;
 import java.util.Random;
 
 /**
@@ -25,15 +26,28 @@ public class RandomUtils {
     }
 
     /**
-     * 获取n位数随机数
+     * 获取[min,max]范围内随机浮点数
+     *
+     * @param min
+     * @param max
+     * @param point 小数点后几位
+     * @return
+     */
+    public static double randomRange(double min, double max, int point) {
+        double d = min + ((max - min) * new Random().nextDouble());
+        return new BigDecimal(d).setScale(point, BigDecimal.ROUND_DOWN).doubleValue();
+    }
+
+    /**
+     * 获取n位数随机正数
      * 首位不为0
      *
      * @param n
      * @return
      */
-    public static String code(Integer n) {
+    public static String num(Integer n) {
         String numeric = RandomStringUtils.randomNumeric(n);
-        return !numeric.startsWith("0") ? numeric : code(n);
+        return !numeric.startsWith("0") ? numeric : num(n);
     }
 
     /**
