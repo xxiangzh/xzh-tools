@@ -56,7 +56,7 @@ public class RandomUtils {
      * @param n
      * @return
      */
-    private static String chinese(Integer n) {
+    public static String chinese(Integer n) {
         return RandomStringUtils.random(n, 0x4e00, 0x9fa5, false, false);
     }
 
@@ -66,7 +66,7 @@ public class RandomUtils {
      * @param n
      * @return
      */
-    private static String alphabetic(Integer n) {
+    public static String alphabetic(Integer n) {
         return RandomStringUtils.randomAlphabetic(n);
     }
 }
