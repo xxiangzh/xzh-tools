@@ -20,7 +20,7 @@ public class RandomUtils {
      * @param max
      * @return
      */
-    public static int randomRange(int min, int max) {
+    public static int rangeNum(int min, int max) {
         Random random = new Random();
         return random.nextInt(max) % (max - min + 1) + min;
     }
@@ -33,7 +33,7 @@ public class RandomUtils {
      * @param point 小数点后几位
      * @return
      */
-    public static double randomRange(double min, double max, int point) {
+    public static double rangeNum(double min, double max, int point) {
         double d = min + ((max - min) * new Random().nextDouble());
         return new BigDecimal(d).setScale(point, BigDecimal.ROUND_DOWN).doubleValue();
     }
