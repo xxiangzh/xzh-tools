@@ -1,4 +1,4 @@
-import com.xzh.utils.ThreadPoolFactory;
+import com.xzh.utils.object.ThreadPoolFactory;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Random;

@@ -1,4 +1,4 @@
-package com.xzh.utils;
+package com.xzh.utils.object;
 
 import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.*;

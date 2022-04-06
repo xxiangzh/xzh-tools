@@ -1,4 +1,4 @@
-package com.xzh.utils;
+package com.xzh.utils.object;
 
 
 import com.google.common.cache.CacheBuilder;

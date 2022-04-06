@@ -1,4 +1,4 @@
-package com.xzh.utils;
+package com.xzh.utils.object;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
