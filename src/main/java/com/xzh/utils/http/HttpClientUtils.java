@@ -1,6 +1,5 @@
 package com.xzh.utils.http;
 
-import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -136,7 +135,7 @@ public class HttpClientUtils {
                 return new URIBuilder(url).build();
             }
         } catch (Exception e) {
-            log.error("HttpClientUtils-Exception: " + url + JSONObject.toJSONString(map), e);
+            log.error("HttpClientUtils-Exception: " + url + map, e);
             throw new RuntimeException("URI创建异常！");
         }
     }
