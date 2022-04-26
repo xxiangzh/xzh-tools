@@ -69,4 +69,14 @@ public class RandomUtils {
     public static String alphabetic(Integer n) {
         return RandomStringUtils.randomAlphabetic(n);
     }
+
+    /**
+     * 获取n位随机字母数字组合
+     *
+     * @param n
+     * @return
+     */
+    public static String alphabeticAndNum(Integer n) {
+        return RandomStringUtils.randomAlphanumeric(n);
+    }
 }
