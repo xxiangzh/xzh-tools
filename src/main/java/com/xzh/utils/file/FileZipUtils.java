@@ -8,7 +8,6 @@ import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.model.enums.AesKeyStrength;
 import net.lingala.zip4j.model.enums.CompressionLevel;
 import net.lingala.zip4j.model.enums.EncryptionMethod;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 
@@ -43,7 +42,7 @@ public class FileZipUtils {
         zipParameters.setCompressionLevel(CompressionLevel.ULTRA);
         ZipFile zipFile = new ZipFile(targetFile);
         // 是否加密
-        if (StringUtils.isNotBlank(password)) {
+        if (password != null) {
             zipParameters.setEncryptFiles(true);
             zipParameters.setEncryptionMethod(EncryptionMethod.AES);
             zipParameters.setAesKeyStrength(AesKeyStrength.KEY_STRENGTH_256);

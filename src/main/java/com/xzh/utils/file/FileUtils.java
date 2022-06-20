@@ -1,7 +1,5 @@
 package com.xzh.utils.file;
 
-import org.springframework.util.CollectionUtils;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -157,7 +155,7 @@ public class FileUtils {
                 fileList.add(file);
                 if (isAll) {
                     List<File> innerFileList = getDirectoryList(file.getAbsolutePath(), true);
-                    if (!CollectionUtils.isEmpty(innerFileList)) {
+                    if (innerFileList != null && !innerFileList.isEmpty()) {
                         fileList.addAll(innerFileList);
                     }
                 }
@@ -185,7 +183,7 @@ public class FileUtils {
             if (file.isDirectory()) {
                 if (isAll) {
                     List<File> innerFileList = getFileList(file.getAbsolutePath(), true);
-                    if (!CollectionUtils.isEmpty(innerFileList)) {
+                    if (innerFileList != null && !innerFileList.isEmpty()) {
                         fileList.addAll(innerFileList);
                     }
                 }
@@ -255,7 +253,7 @@ public class FileUtils {
         String newNamePath;
         String[] names = getFileNames(absolutePath);
         List<String> fileNameList = getFileNameList(targetFolderDirectory);
-        if (!CollectionUtils.isEmpty(fileNameList) || fileNameList.contains(names[0].toLowerCase())) {
+        if (fileNameList != null && fileNameList.contains(names[0].toLowerCase())) {
             newNamePath = targetFolderDirectory + File.separator + getName(fileNameList, names, 1);
         } else {
             newNamePath = targetFolderDirectory + File.separator + names[0];
