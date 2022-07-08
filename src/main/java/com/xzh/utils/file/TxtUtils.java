@@ -1,8 +1,10 @@
 package com.xzh.utils.file;
 
-import com.xzh.utils.http.HttpServletUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -50,8 +52,12 @@ public class TxtUtils {
     }
 
     private static ServletOutputStream getServletOutputStream(String fileName) {
-        HttpServletResponse response = HttpServletUtils.response();
-        assert response != null;
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
+        if (servletRequestAttributes == null) {
+            return null;
+        }
+        HttpServletResponse response = servletRequestAttributes.getResponse();
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
         response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
