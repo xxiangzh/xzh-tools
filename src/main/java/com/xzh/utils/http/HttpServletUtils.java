@@ -25,9 +25,13 @@ public class HttpServletUtils {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
         if (servletRequestAttributes == null) {
-            return null;
+            throw new RuntimeException("ServletRequestAttributes is null");
         }
-        return servletRequestAttributes.getResponse();
+        HttpServletResponse response = servletRequestAttributes.getResponse();
+        if (response == null) {
+            throw new RuntimeException("HttpServletResponse is null");
+        }
+        return response;
     }
 
     /**
@@ -39,7 +43,7 @@ public class HttpServletUtils {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
         if (servletRequestAttributes == null) {
-            return null;
+            throw new RuntimeException("ServletRequestAttributes is null");
         }
         return servletRequestAttributes.getRequest();
     }
@@ -53,7 +57,7 @@ public class HttpServletUtils {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
         if (servletRequestAttributes == null) {
-            return null;
+            throw new RuntimeException("ServletRequestAttributes is null");
         }
         HttpServletRequest request = servletRequestAttributes.getRequest();
         return request.getSession();
