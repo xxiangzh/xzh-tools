@@ -8,44 +8,82 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
- * txt文件导出
+ * 文件导出工具
  *
  * @author 向振华
  * @date 2021/11/09 14:30
  */
 @Slf4j
-public class TxtUtils {
+public class FileExportUtils {
 
     /**
-     * 导出txt文件
+     * 导出文件
      * 如果在content加入\n，文件也会自动换行
      *
-     * @param fileName
+     * @param filePathName D:\xxx\abc.txt
      * @param content
+     * @param charsetName
      */
-    public static void export(String fileName, String content, String charsetName) {
-        ServletOutputStream servletOutputStream = getServletOutputStream(fileName);
+    public static void exportLocal(String filePathName, String content, String charsetName) {
         try {
-            IOUtils.write(content.getBytes(charsetName), servletOutputStream);
+            OutputStream outputStream = new FileOutputStream(filePathName);
+            IOUtils.write(content.getBytes(charsetName), outputStream);
         } catch (Exception e) {
             log.error("导出文件失败", e);
         }
     }
 
     /**
-     * 导出txt文件
+     * 导出文件
+     * 会自动加入换行
+     *
+     * @param filePathName D:\xxx\abc.txt
+     * @param contents
+     * @param charsetName
+     */
+    public static void exportLocal(String filePathName, List<String> contents, String charsetName) {
+        try {
+            OutputStream outputStream = new FileOutputStream(filePathName);
+            IOUtils.writeLines(contents, null, outputStream, charsetName);
+        } catch (Exception e) {
+            log.error("导出文件失败", e);
+        }
+    }
+
+    /**
+     * 导出文件
+     * 如果在content加入\n，文件也会自动换行
+     *
+     * @param fileName
+     * @param content
+     * @param charsetName
+     */
+    public static void export(String fileName, String content, String charsetName) {
+        try {
+            OutputStream outputStream = getServletOutputStream(fileName);
+            IOUtils.write(content.getBytes(charsetName), outputStream);
+        } catch (Exception e) {
+            log.error("导出文件失败", e);
+        }
+    }
+
+    /**
+     * 导出文件
      * 会自动加入换行
      *
      * @param fileName
      * @param contents
+     * @param charsetName
      */
     public static void export(String fileName, List<String> contents, String charsetName) {
-        ServletOutputStream servletOutputStream = getServletOutputStream(fileName);
         try {
-            IOUtils.writeLines(contents, null, servletOutputStream, charsetName);
+            OutputStream outputStream = getServletOutputStream(fileName);
+            IOUtils.writeLines(contents, null, outputStream, charsetName);
         } catch (Exception e) {
             log.error("导出文件失败", e);
         }
