@@ -96,18 +96,17 @@ public class FileExportUtils {
             return null;
         }
         HttpServletResponse response = servletRequestAttributes.getResponse();
+        if (response == null) {
+            return null;
+        }
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
         response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
-        response.setHeader("Content-Disposition", "attachment;filename=" + getFileName(fileName));
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
         try {
             return response.getOutputStream();
         } catch (Exception e) {
             return null;
         }
-    }
-
-    private static String getFileName(String fileName) {
-        return fileName.endsWith(".txt") ? fileName : fileName + ".txt";
     }
 }
