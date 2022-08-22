@@ -20,18 +20,22 @@ public class FileUtils {
      *
      * @param sourceFolderDirectory 源文件夹目录
      * @param targetFolderDirectory 目标文件夹目录
-     * @param includeKeys           关键字 （为null或""时 复制所有）
+     * @param includeKeys           关键字 忽略大小写 不传参时复制所有
      */
     public static void copyByKey(String sourceFolderDirectory, String targetFolderDirectory, String... includeKeys) {
         List<File> fileList = getFileList(sourceFolderDirectory, true);
-        if (fileList == null) {
+        if (fileList == null || fileList.isEmpty()) {
             return;
         }
         for (File file : fileList) {
+            boolean flag = true;
             for (String key : includeKeys) {
-                if (key != null && !file.getName().contains(key)) {
-                    continue;
+                if (!file.getName().toLowerCase().contains(key.toLowerCase())) {
+                    flag = false;
+                    break;
                 }
+            }
+            if (flag) {
                 copy(file.getAbsolutePath(), targetFolderDirectory);
             }
         }
@@ -42,28 +46,23 @@ public class FileUtils {
      *
      * @param sourceFolderDirectory 源文件夹目录
      * @param targetFolderDirectory 目标文件夹目录
-     * @param excludeKeys           排除的关键字
+     * @param excludeKeys           排除的关键字 忽略大小写 不传参时复制所有
      */
     public static void copyWithoutKey(String sourceFolderDirectory, String targetFolderDirectory, String... excludeKeys) {
-        if (excludeKeys == null) {
-            return;
-        }
         List<File> fileList = getFileList(sourceFolderDirectory, true);
-        if (fileList == null) {
+        if (fileList == null || fileList.isEmpty()) {
             return;
         }
-        boolean flag = true;
         for (File file : fileList) {
+            boolean flag = true;
             for (String key : excludeKeys) {
-                if (file.getName().toLowerCase().endsWith(key.toLowerCase())) {
+                if (file.getName().toLowerCase().contains(key.toLowerCase())) {
                     flag = false;
                     break;
                 }
             }
             if (flag) {
                 copy(file.getAbsolutePath(), targetFolderDirectory);
-            } else {
-                flag = true;
             }
         }
     }
