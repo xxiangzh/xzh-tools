@@ -68,26 +68,6 @@ public class FileUtils {
     }
 
     /**
-     * 删除文件夹（并递归删除文件夹下所有文件）
-     *
-     * @param file
-     */
-    public static void deleteDirectory(File file) {
-        if (file.isDirectory()) {
-            // 得到当前的路径
-            String[] childFilePaths = file.list();
-            if (childFilePaths == null) {
-                return;
-            }
-            for (String childFilePath : childFilePaths) {
-                File childFile = new File(file.getAbsolutePath() + File.separator + childFilePath);
-                deleteDirectory(childFile);
-            }
-        }
-        file.delete();
-    }
-
-    /**
      * 文件复制
      *
      * @param sourceAbsolutePath    源文件路径
@@ -95,10 +75,10 @@ public class FileUtils {
      */
     public static void copy(String sourceAbsolutePath, String targetFolderDirectory) {
         makeDirectory(targetFolderDirectory);
-        String newNamePath = getNewNamePath(sourceAbsolutePath, targetFolderDirectory);
+        String newAbsolutePath = getNewAbsolutePath(sourceAbsolutePath, targetFolderDirectory);
         try {
             FileInputStream fis = new FileInputStream(sourceAbsolutePath);
-            FileOutputStream fos = new FileOutputStream(newNamePath);
+            FileOutputStream fos = new FileOutputStream(newAbsolutePath);
             byte[] datas = new byte[1024 * 8];
             int len;
             while ((len = fis.read(datas)) != -1) {
@@ -126,6 +106,26 @@ public class FileUtils {
                 dir.mkdir();
             }
         }
+    }
+
+    /**
+     * 删除文件夹（并递归删除文件夹下所有文件）
+     *
+     * @param file
+     */
+    public static void deleteDirectory(File file) {
+        if (file.isDirectory()) {
+            // 得到当前的路径
+            String[] childFilePaths = file.list();
+            if (childFilePaths == null) {
+                return;
+            }
+            for (String childFilePath : childFilePaths) {
+                File childFile = new File(file.getAbsolutePath() + File.separator + childFilePath);
+                deleteDirectory(childFile);
+            }
+        }
+        file.delete();
     }
 
     /**
@@ -226,7 +226,6 @@ public class FileUtils {
         return fileList;
     }
 
-
     /**
      * 获取文件名列表（含扩展名）
      *
@@ -240,34 +239,34 @@ public class FileUtils {
     }
 
     /**
-     * 将绝对路径拆分成 全名 + 文件名 + 文件扩展名 的数组
-     *
-     * @param absolutePath
-     * @return
-     */
-    public static String[] getFileNames(String absolutePath) {
-        String fileName = absolutePath.substring(absolutePath.lastIndexOf(File.separator) + 1);
-        int i = fileName.lastIndexOf(".");
-        return new String[]{fileName, fileName.substring(0, i), fileName.substring(i)};
-    }
-
-    /**
      * 生成新的文件名
      *
-     * @param absolutePath
+     * @param sourceAbsolutePath
      * @param targetFolderDirectory
      * @return
      */
-    public static String getNewNamePath(String absolutePath, String targetFolderDirectory) {
-        String newNamePath;
-        String[] names = getFileNames(absolutePath);
+    public static String getNewAbsolutePath(String sourceAbsolutePath, String targetFolderDirectory) {
+        String newAbsolutePath;
+        String[] names = getFileNames(sourceAbsolutePath);
         List<String> fileNameList = getFileNameList(targetFolderDirectory, false);
         if (fileNameList != null && fileNameList.contains(names[0].toLowerCase())) {
-            newNamePath = targetFolderDirectory + File.separator + getName(fileNameList, names, 1);
+            newAbsolutePath = targetFolderDirectory + File.separator + getName(fileNameList, names, 1);
         } else {
-            newNamePath = targetFolderDirectory + File.separator + names[0];
+            newAbsolutePath = targetFolderDirectory + File.separator + names[0];
         }
-        return newNamePath;
+        return newAbsolutePath;
+    }
+
+    /**
+     * 将绝对路径拆分成 全名 + 文件名 + 文件扩展名 的数组
+     *
+     * @param sourceAbsolutePath
+     * @return
+     */
+    public static String[] getFileNames(String sourceAbsolutePath) {
+        String fileName = sourceAbsolutePath.substring(sourceAbsolutePath.lastIndexOf(File.separator) + 1);
+        int i = fileName.lastIndexOf(".");
+        return new String[]{fileName, fileName.substring(0, i), fileName.substring(i)};
     }
 
     /**
