@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,20 +69,40 @@ public class FileUtils {
     }
 
     /**
+     * 删除文件夹（并递归删除文件夹下所有文件）
+     *
+     * @param file
+     */
+    public static void deleteDirectory(File file) {
+        if (file.isDirectory()) {
+            // 得到当前的路径
+            String[] childFilePaths = file.list();
+            if (childFilePaths == null) {
+                return;
+            }
+            for (String childFilePath : childFilePaths) {
+                File childFile = new File(file.getAbsolutePath() + File.separator + childFilePath);
+                deleteDirectory(childFile);
+            }
+        }
+        file.delete();
+    }
+
+    /**
      * 文件复制
      *
-     * @param absolutePath          源文件路径
+     * @param sourceAbsolutePath    源文件路径
      * @param targetFolderDirectory 目标文件夹目录
      */
-    public static void copy(String absolutePath, String targetFolderDirectory) {
+    public static void copy(String sourceAbsolutePath, String targetFolderDirectory) {
         File dir = new File(targetFolderDirectory);
         if (!dir.isDirectory()) {
             // 如果目录不存在则创建
             dir.mkdir();
         }
-        String newNamePath = getNewNamePath(absolutePath, targetFolderDirectory);
+        String newNamePath = getNewNamePath(sourceAbsolutePath, targetFolderDirectory);
         try {
-            FileInputStream fis = new FileInputStream(absolutePath);
+            FileInputStream fis = new FileInputStream(sourceAbsolutePath);
             FileOutputStream fos = new FileOutputStream(newNamePath);
             byte[] datas = new byte[1024 * 8];
             int len;
@@ -139,8 +158,8 @@ public class FileUtils {
      * 获取文件夹列表
      *
      * @param sourceFolderDirectory 源文件夹目录
-     * @param isAll                 是否获取全部文件夹
-     * @return
+     * @param isAll                 是否获取全部文件，true获取全部，false只获取路径下的文件，不包括路径下子文件夹的文件
+     * @return 返回文件夹列表
      */
     public static List<File> getDirectoryList(String sourceFolderDirectory, boolean isAll) {
         List<File> fileList = new ArrayList<>();
@@ -194,40 +213,17 @@ public class FileUtils {
         return fileList;
     }
 
-    /**
-     * 获取文件列表
-     *
-     * @param sourceFolderDirectory 源文件夹目录
-     * @return
-     */
-    public static List<File> getFileList(String sourceFolderDirectory) {
-        List<File> fileList = new ArrayList<>();
-        File dir = new File(sourceFolderDirectory);
-        // 该文件目录下文件全部放入数组
-        File[] files = dir.listFiles();
-        if (files == null) {
-            return null;
-        }
-        for (File file : files) {
-            fileList.add(file);
-        }
-        return fileList;
-    }
 
     /**
-     * 获取文件名列表 不递归查
+     * 获取文件名列表（含扩展名）
      *
-     * @param sourceFolderDirectory
-     * @return
+     * @param sourceFolderDirectory 源文件夹目录
+     * @param isAll                 是否获取全部文件，true获取全部，false只获取路径下的文件，不包括路径下子文件夹的文件
+     * @return 返回文件名列表
      */
-    public static List<String> getFileNameList(String sourceFolderDirectory) {
-        File dir = new File(sourceFolderDirectory);
-        // 该文件目录下文件名全部放入数组
-        String[] list = dir.list();
-        if (list == null) {
-            return null;
-        }
-        return Arrays.stream(list).map(String::toLowerCase).collect(Collectors.toList());
+    public static List<String> getFileNameList(String sourceFolderDirectory, boolean isAll) {
+        List<File> fileList = getFileList(sourceFolderDirectory, isAll);
+        return fileList != null ? fileList.stream().map(File::getName).collect(Collectors.toList()) : new ArrayList<>();
     }
 
     /**
@@ -252,7 +248,7 @@ public class FileUtils {
     public static String getNewNamePath(String absolutePath, String targetFolderDirectory) {
         String newNamePath;
         String[] names = getFileNames(absolutePath);
-        List<String> fileNameList = getFileNameList(targetFolderDirectory);
+        List<String> fileNameList = getFileNameList(targetFolderDirectory, false);
         if (fileNameList != null && fileNameList.contains(names[0].toLowerCase())) {
             newNamePath = targetFolderDirectory + File.separator + getName(fileNameList, names, 1);
         } else {
@@ -275,25 +271,5 @@ public class FileUtils {
             return getName(fileNameList, names, ++n);
         }
         return name;
-    }
-
-    /**
-     * 删除文件夹
-     *
-     * @param file
-     */
-    public static void deleteDirectory(File file) {
-        if (file.isDirectory()) {
-            // 得到当前的路径
-            String[] childFilePaths = file.list();
-            if (childFilePaths == null) {
-                return;
-            }
-            for (String childFilePath : childFilePaths) {
-                File childFile = new File(file.getAbsolutePath() + "/" + childFilePath);
-                deleteDirectory(childFile);
-            }
-        }
-        file.delete();
     }
 }
