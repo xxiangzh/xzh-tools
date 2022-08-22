@@ -31,11 +31,7 @@ public class FileExportUtils {
      * @param charsetName           导出内容编码格式
      */
     public static void exportLocal(String targetFolderDirectory, String fileName, String content, String charsetName) {
-        File dir = new File(targetFolderDirectory);
-        if (!dir.isDirectory()) {
-            // 如果目录不存在则创建
-            dir.mkdir();
-        }
+        FileUtils.makeDirectory(targetFolderDirectory);
         try {
             OutputStream outputStream = new FileOutputStream(targetFolderDirectory + File.separator + fileName);
             IOUtils.write(content.getBytes(charsetName), outputStream);

@@ -95,11 +95,7 @@ public class FileUtils {
      * @param targetFolderDirectory 目标文件夹目录
      */
     public static void copy(String sourceAbsolutePath, String targetFolderDirectory) {
-        File dir = new File(targetFolderDirectory);
-        if (!dir.isDirectory()) {
-            // 如果目录不存在则创建
-            dir.mkdir();
-        }
+        makeDirectory(targetFolderDirectory);
         String newNamePath = getNewNamePath(sourceAbsolutePath, targetFolderDirectory);
         try {
             FileInputStream fis = new FileInputStream(sourceAbsolutePath);
@@ -112,6 +108,24 @@ public class FileUtils {
             fis.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 如果目录不存在则创建目录
+     *
+     * @param targetFolderDirectory
+     */
+    public static void makeDirectory(String targetFolderDirectory) {
+        String[] folderDirectories = targetFolderDirectory.split("\\\\");
+        String temp = "";
+        for (String folderDirectory : folderDirectories) {
+            temp = temp + File.separator + folderDirectory;
+            File dir = new File(temp);
+            if (!dir.isDirectory()) {
+                // 如果目录不存在则创建
+                dir.mkdir();
+            }
         }
     }
 
