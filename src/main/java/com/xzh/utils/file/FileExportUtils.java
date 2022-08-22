@@ -8,9 +8,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
 
 /**
  * 文件导出工具
@@ -23,15 +24,20 @@ public class FileExportUtils {
 
     /**
      * 导出文件
-     * 如果在content加入\n，文件也会自动换行
      *
-     * @param filePathName D:\xxx\abc.txt
-     * @param content
-     * @param charsetName
+     * @param targetFolderDirectory 目标文件夹目录 D:\xxx
+     * @param fileName              文件名 abc.txt
+     * @param content               导出内容文本 如果在content加入\n，文件也会自动换行
+     * @param charsetName           导出内容编码格式
      */
-    public static void exportLocal(String filePathName, String content, String charsetName) {
+    public static void exportLocal(String targetFolderDirectory, String fileName, String content, String charsetName) {
+        File dir = new File(targetFolderDirectory);
+        if (!dir.isDirectory()) {
+            // 如果目录不存在则创建
+            dir.mkdir();
+        }
         try {
-            OutputStream outputStream = new FileOutputStream(filePathName);
+            OutputStream outputStream = new FileOutputStream(targetFolderDirectory + File.separator + fileName);
             IOUtils.write(content.getBytes(charsetName), outputStream);
         } catch (Exception e) {
             log.error("导出文件失败", e);
@@ -40,30 +46,12 @@ public class FileExportUtils {
 
     /**
      * 导出文件
-     * 会自动加入换行
      *
-     * @param filePathName D:\xxx\abc.txt
-     * @param contents
-     * @param charsetName
+     * @param fileName    文件名 abc.txt
+     * @param content     导出内容文本 如果在content加入\n，文件也会自动换行
+     * @param charsetName 导出内容编码格式
      */
-    public static void exportLocal(String filePathName, List<String> contents, String charsetName) {
-        try {
-            OutputStream outputStream = new FileOutputStream(filePathName);
-            IOUtils.writeLines(contents, null, outputStream, charsetName);
-        } catch (Exception e) {
-            log.error("导出文件失败", e);
-        }
-    }
-
-    /**
-     * 导出文件
-     * 如果在content加入\n，文件也会自动换行
-     *
-     * @param fileName
-     * @param content
-     * @param charsetName
-     */
-    public static void export(String fileName, String content, String charsetName) {
+    public static void exportResponse(String fileName, String content, String charsetName) {
         try {
             OutputStream outputStream = getServletOutputStream(fileName);
             IOUtils.write(content.getBytes(charsetName), outputStream);
@@ -72,41 +60,16 @@ public class FileExportUtils {
         }
     }
 
-    /**
-     * 导出文件
-     * 会自动加入换行
-     *
-     * @param fileName
-     * @param contents
-     * @param charsetName
-     */
-    public static void export(String fileName, List<String> contents, String charsetName) {
-        try {
-            OutputStream outputStream = getServletOutputStream(fileName);
-            IOUtils.writeLines(contents, null, outputStream, charsetName);
-        } catch (Exception e) {
-            log.error("导出文件失败", e);
-        }
-    }
-
-    private static ServletOutputStream getServletOutputStream(String fileName) {
+    private static ServletOutputStream getServletOutputStream(String fileName) throws IOException {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
-        if (servletRequestAttributes == null) {
-            return null;
-        }
+        assert servletRequestAttributes != null;
         HttpServletResponse response = servletRequestAttributes.getResponse();
-        if (response == null) {
-            return null;
-        }
+        assert response != null;
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
         response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
-        try {
-            return response.getOutputStream();
-        } catch (Exception e) {
-            return null;
-        }
+        return response.getOutputStream();
     }
 }
