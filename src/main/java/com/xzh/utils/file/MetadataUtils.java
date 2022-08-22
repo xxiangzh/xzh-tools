@@ -23,6 +23,8 @@ public class MetadataUtils {
     /**
      * 获取拍摄日期
      *
+     * @param file    文件
+     * @param pattern 输出日期格式
      * @return
      */
     public static String getDateTime(File file, String pattern) {
