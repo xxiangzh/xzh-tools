@@ -98,7 +98,7 @@ public class HttpParamUtils {
     /**
      * 获取HTTP请求体中的参数（可以是json、xml等）
      *
-     * @param characterEncoding
+     * @param characterEncoding 编码格式
      * @return
      */
     public static String getRequestParam(String characterEncoding) {
