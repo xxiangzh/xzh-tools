@@ -1,12 +1,9 @@
 package com.xzh.utils.encode;
 
-import org.apache.commons.lang3.StringUtils;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Base64;
 
 /**
  * 图片BASE64编码解码工具
@@ -22,22 +19,27 @@ public class ImageUtils {
      * @param imgFile
      * @return
      */
-    public static String toBase64ByLocal(String imgFile) {
-        InputStream in = null;
+    public static String local2Base64(String imgFile) {
+        InputStream is = null;
         byte[] data = null;
         // 读取图片字节数组
         try {
-            in = new FileInputStream(imgFile);
-            data = new byte[in.available()];
-            in.read(data);
-            in.close();
-        } catch (IOException e) {
+            is = new FileInputStream(imgFile);
+            data = new byte[is.available()];
+            is.read(data);
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        // 对字节数组Base64编码
-        BASE64Encoder encoder = new BASE64Encoder();
-        // 返回Base64编码过的字节数组字符串
-        return encoder.encode(data);
+        // 转BASE64编码
+        return Base64.getEncoder().encodeToString(data);
     }
 
     /**
@@ -46,8 +48,9 @@ public class ImageUtils {
      * @param imgUrl
      * @return
      */
-    public static String toBase64ByOnline(String imgUrl) {
+    public static String online2Base64(String imgUrl) {
         ByteArrayOutputStream data = new ByteArrayOutputStream();
+        InputStream is = null;
         try {
             // 创建URL
             URL url = new URL(imgUrl);
@@ -56,50 +59,63 @@ public class ImageUtils {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setConnectTimeout(5000);
-            InputStream is = conn.getInputStream();
+            is = conn.getInputStream();
             // 将内容读取内存中
             int len = -1;
             while ((len = is.read(by)) != -1) {
                 data.write(by, 0, len);
             }
-            // 关闭流
-            is.close();
+
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        // 对字节数组Base64编码
-        BASE64Encoder encoder = new BASE64Encoder();
-        return encoder.encode(data.toByteArray());
+        // BASE64编码
+        return Base64.getEncoder().encodeToString(data.toByteArray());
     }
 
     /**
      * BASE64编码转图片
      *
-     * @param imgStr
-     * @param imgFilePath 图片地址
+     * @param base64ImgStr
+     * @param imgFilePath  图片地址
      * @return
      */
-    public static boolean base64ToImage(String imgStr, String imgFilePath) {
-        if (StringUtils.isBlank(imgStr)) {
+    public static boolean base642Image(String base64ImgStr, String imgFilePath) {
+        if (base64ImgStr == null || base64ImgStr.isEmpty()) {
             return false;
         }
-        BASE64Decoder decoder = new BASE64Decoder();
+        // BASE64解码
+        byte[] bytes = Base64.getDecoder().decode(base64ImgStr);
+        OutputStream os = null;
         try {
-            // Base64解码
-            byte[] b = decoder.decodeBuffer(imgStr);
-            for (int i = 0; i < b.length; ++i) {
-                if (b[i] < 0) {
+            for (int i = 0; i < bytes.length; ++i) {
+                if (bytes[i] < 0) {
                     // 调整异常数据
-                    b[i] += 256;
+                    bytes[i] += 256;
                 }
             }
-            OutputStream out = new FileOutputStream(imgFilePath);
-            out.write(b);
-            out.flush();
-            out.close();
+            os = new FileOutputStream(imgFilePath);
+            os.write(bytes);
+            os.flush();
             return true;
         } catch (Exception e) {
             return false;
+        } finally {
+            if (os != null) {
+                try {
+                    os.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
