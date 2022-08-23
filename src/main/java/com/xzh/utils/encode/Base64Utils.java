@@ -1,6 +1,5 @@
 package com.xzh.utils.encode;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 /**
@@ -12,25 +11,22 @@ import java.util.Base64;
 public class Base64Utils {
 
     /**
-     * 加密
+     * 编码
      *
-     * @param text 明文
-     * @return 密文
+     * @param text
+     * @return
      */
-    public static String encoder(String text) {
-        Base64.Encoder encoder = Base64.getEncoder();
-        byte[] textByte = text.getBytes(StandardCharsets.UTF_8);
-        return encoder.encodeToString(textByte);
+    public static String encode(byte[] text) {
+        return Base64.getEncoder().encodeToString(text);
     }
 
     /**
-     * 解密
+     * 解码
      *
-     * @param text 密文
-     * @return 明文
+     * @param text
+     * @return
      */
-    public static String decoder(String text) {
-        Base64.Decoder decoder = Base64.getDecoder();
-        return new String(decoder.decode(text), StandardCharsets.UTF_8);
+    public static byte[] decode(String text) {
+        return Base64.getDecoder().decode(text);
     }
 }
