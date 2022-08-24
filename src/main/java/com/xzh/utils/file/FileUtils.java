@@ -30,10 +30,11 @@ public class FileUtils {
         for (File file : fileList) {
             boolean flag = true;
             for (String key : includeKeys) {
-                if (!file.getName().toLowerCase().contains(key.toLowerCase())) {
-                    flag = false;
+                if (file.getName().toLowerCase().contains(key.toLowerCase())) {
+                    flag = true;
                     break;
                 }
+                flag = false;
             }
             if (flag) {
                 copy(file.getAbsolutePath(), targetFolderDirectory);
@@ -278,7 +279,7 @@ public class FileUtils {
      * @return
      */
     private static String getName(List<String> fileNameList, String[] names, int n) {
-        String name = names[1] + n + names[2];
+        String name = names[1] + "_" + n + names[2];
         if (fileNameList.contains(name.toLowerCase())) {
             return getName(fileNameList, names, ++n);
         }
