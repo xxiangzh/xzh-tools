@@ -1,8 +1,7 @@
 package com.xzh.utils.encode;
 
 import cn.hutool.core.codec.Base64;
-import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
-import cn.hutool.crypto.symmetric.SymmetricCrypto;
+import cn.hutool.crypto.SecureUtil;
 
 /**
  * AES加密工具
@@ -22,7 +21,7 @@ public class AesUtils {
      */
     public static String encrypt(String secretKey, String plainText) {
         // AES加密
-        byte[] aesEncrypt = new SymmetricCrypto(SymmetricAlgorithm.AES, secretKey.getBytes()).encrypt(plainText);
+        byte[] aesEncrypt = SecureUtil.aes(secretKey.getBytes()).encrypt(plainText);
         // Base64编码
         return Base64.encode(aesEncrypt);
     }
@@ -39,7 +38,7 @@ public class AesUtils {
         // Base64解码
         byte[] base64Decode = Base64.decode(cipherText);
         // AES解密
-        byte[] aesDecrypt = new SymmetricCrypto(SymmetricAlgorithm.AES, secretKey.getBytes()).decrypt(base64Decode);
+        byte[] aesDecrypt = SecureUtil.aes(secretKey.getBytes()).decrypt(base64Decode);
         return new String(aesDecrypt);
     }
 }
