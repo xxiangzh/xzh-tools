@@ -267,7 +267,11 @@ public class FileUtils {
     public static String[] getFileNames(String sourceAbsolutePath) {
         String fileName = sourceAbsolutePath.substring(sourceAbsolutePath.lastIndexOf(File.separator) + 1);
         int i = fileName.lastIndexOf(".");
-        return new String[]{fileName, fileName.substring(0, i), fileName.substring(i)};
+        if (i != -1) {
+            return new String[]{fileName, fileName.substring(0, i), fileName.substring(i)};
+        } else {
+            return new String[]{fileName, fileName, ""};
+        }
     }
 
     /**
