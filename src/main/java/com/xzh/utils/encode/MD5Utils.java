@@ -1,6 +1,6 @@
 package com.xzh.utils.encode;
 
-import cn.hutool.crypto.digest.MD5;
+import cn.hutool.crypto.SecureUtil;
 
 /**
  * MD5
@@ -17,6 +17,6 @@ public class MD5Utils {
      * @return
      */
     public static String encode(String text) {
-        return MD5.create().digestHex(text);
+        return SecureUtil.md5(text);
     }
 }
