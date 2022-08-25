@@ -1,4 +1,4 @@
-package com.xzh.utils.encode;
+package com.xzh.utils.secure;
 
 import cn.hutool.crypto.SecureUtil;
 

@@ -1,4 +1,4 @@
-package com.xzh.utils.encode;
+package com.xzh.utils.secure;
 
 import java.util.Base64;
 

@@ -1,4 +1,4 @@
-package com.xzh.utils.encode;
+package com.xzh.utils.secure;
 
 import java.io.*;
 import java.net.HttpURLConnection;
