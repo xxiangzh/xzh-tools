@@ -24,6 +24,8 @@ public class DingRobotUtils {
 
     /**
      * 发送消息
+     *
+     * @param content
      */
     public static void send(String content) {
         String url = getUrl();
