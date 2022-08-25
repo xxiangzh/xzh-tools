@@ -1,6 +1,6 @@
 import bean.User;
 import com.alibaba.fastjson.JSONObject;
-import com.xzh.utils.object.TokenUtils;
+import com.xzh.utils.secure.TokenUtils;
 
 /**
  * @author 向振华
