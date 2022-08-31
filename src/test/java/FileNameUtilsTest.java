@@ -1,3 +1,4 @@
+import com.xzh.utils.file.FileNameUtils;
 import com.xzh.utils.file.FileUtils;
 import com.xzh.utils.file.MetadataUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -5,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.File;
 import java.util.List;
 
-public class FileUtilsRenameTest {
+public class FileNameUtilsTest {
 
     public static void main(String[] args) {
         List<File> fileList = FileUtils.getFileList("E:\\A", true);
@@ -14,7 +15,7 @@ public class FileUtilsRenameTest {
             if (StringUtils.isBlank(dateTime)) {
                 continue;
             }
-            FileUtils.rename(file, dateTime, null);
+            FileNameUtils.rename(file, dateTime, null);
         }
     }
 }

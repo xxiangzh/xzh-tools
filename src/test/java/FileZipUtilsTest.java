@@ -1,3 +1,4 @@
+import com.xzh.utils.file.FileNameUtils;
 import com.xzh.utils.file.FileUtils;
 import com.xzh.utils.file.FileZipUtils;
 
@@ -22,7 +23,7 @@ public class FileZipUtilsTest {
     private static void zip() {
         List<File> fileList1 = FileUtils.getFileList(SOURCE_FOLDER_DIRECTORY, false);
         for (File file : fileList1) {
-            FileUtils.rename(file, null, TXT);
+            FileNameUtils.rename(file, null, TXT);
         }
 
         List<File> fileList2 = FileUtils.getFileList(SOURCE_FOLDER_DIRECTORY, false);
@@ -33,19 +34,19 @@ public class FileZipUtilsTest {
         List<File> fileList4 = FileUtils.getFileList(SOURCE_FOLDER_DIRECTORY + "\\zip", false);
         int i = 1;
         for (File file : fileList4) {
-            FileUtils.rename(file, String.valueOf(i++), TXT);
+            FileNameUtils.rename(file, String.valueOf(i++), TXT);
         }
 
         List<File> fileList5 = FileUtils.getFileList(SOURCE_FOLDER_DIRECTORY, false);
         for (File file : fileList5) {
-            FileUtils.rename(file, null, SOURCE);
+            FileNameUtils.rename(file, null, SOURCE);
         }
     }
 
     private static void unZip() {
         List<File> fileList1 = FileUtils.getFileList(SOURCE_FOLDER_DIRECTORY, false);
         for (File file : fileList1) {
-            FileUtils.rename(file, null, ".zip");
+            FileNameUtils.rename(file, null, ".zip");
         }
 
         List<File> fileList2 = FileUtils.getFileList(SOURCE_FOLDER_DIRECTORY, false);
@@ -55,12 +56,12 @@ public class FileZipUtilsTest {
 
         List<File> fileList4 = FileUtils.getFileList(SOURCE_FOLDER_DIRECTORY + "\\unzip", false);
         for (File file : fileList4) {
-            FileUtils.rename(file, null, SOURCE);
+            FileNameUtils.rename(file, null, SOURCE);
         }
 
         List<File> fileList5 = FileUtils.getFileList(SOURCE_FOLDER_DIRECTORY, false);
         for (File file : fileList5) {
-            FileUtils.rename(file, null, TXT);
+            FileNameUtils.rename(file, null, TXT);
         }
     }
 }
