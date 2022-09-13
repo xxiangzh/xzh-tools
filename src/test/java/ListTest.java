@@ -28,27 +28,27 @@ public class ListTest {
 
     public static void main(String[] args) {
         List<ShopCar> list = build();
-        //过滤
+        // 过滤
         filter(list);
-        //排序
+        // 排序
         sort(list);
-        //统计
+        // 统计
         sum(list);
-        //聚合
+        // 聚合
         collect(list);
     }
 
     private static void filter(List<ShopCar> list) {
-        //移除集合中的元素
+        // 移除集合中的元素
         list.removeIf(s -> s.getPrice() > 4);
 
-        //过滤出数量大于0的，然后将名字拼接成字符串
+        // 过滤出数量大于0的，然后将名字拼接成字符串
         String names = list.stream().filter(s -> s.getCount() > 0).map(ShopCar::getName).collect(Collectors.joining("、"));
 
-        //只能去完全相同的实体
+        // 只能去完全相同的实体
         List<ShopCar> list1 = list.stream().distinct().collect(Collectors.toList());
 
-        //去按指定参数去重
+        // 去按指定参数去重
         List<ShopCar> list2 = list.stream().filter(distinctByKey(ShopCar::getName)).collect(Collectors.toList());
     }
 
@@ -58,7 +58,7 @@ public class ListTest {
     }
 
     private static void sort(List<ShopCar> list) {
-        //按价格降序
+        // 按价格降序
         // 写法1，在原集合上排序
         list.sort((o1, o2) -> o2.getPrice().compareTo(o1.getPrice()));
         // 写法2，在原集合上排序
@@ -68,13 +68,15 @@ public class ListTest {
         // 写法4，原集合不变，需要返回排序后的集合
         List<ShopCar> collect1 = list.stream().sorted(Comparator.comparing(ShopCar::getPrice).reversed()).collect(Collectors.toList());
 
-        //按价格升序
+        // 按价格升序
         List<ShopCar> collect2 = list.stream().sorted(Comparator.comparing(ShopCar::getPrice)).collect(Collectors.toList());
 
-        // 空字段放该字段排序的末尾写法
-        list.sort(Comparator.comparing(ShopCar::getPrice, Comparator.nullsLast(Double::compareTo)).reversed());
+        // 排序时，空字段放该字段排序的开头写法
+        Comparator.nullsFirst(Double::compareTo);
+        // 排序时，空字段放该字段排序的末尾写法
+        Comparator.nullsLast(Double::compareTo);
 
-        //多排序条件
+        // 多排序条件
         List<ShopCar> collect3 = list.stream()
                 .sorted(Comparator
                         .comparing(ShopCar::getCount, Comparator.reverseOrder()) // 先按数量降序
