@@ -48,7 +48,7 @@ public class ListTest {
     }
 
     private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
-        Map<Object,Boolean> seen = new ConcurrentHashMap<>();
+        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
         return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 
@@ -61,6 +61,8 @@ public class ListTest {
         //按价格升序
         shopCarList.sort((o1, o2) -> o1.getPrice().compareTo(o2.getPrice()));
         shopCarList.sort(Comparator.comparing(ShopCar::getPrice)); // 标准写法
+        // 空字段放最末尾
+        shopCarList.sort(Comparator.comparing(ShopCar::getPrice, Comparator.nullsLast(Double::compareTo)).reversed());
 
         //多排序条件
         List<ShopCar> collect = shopCarList.stream()
@@ -84,7 +86,7 @@ public class ListTest {
         List<String> collect1 = shopCarList.stream().map(ShopCar::getName).collect(Collectors.toList());
 
         // 将集合中数据聚合到map，name为key，shopCar全部放在一个list中作为value
-        Map<String, List<ShopCar>> collect11= shopCarList.stream().collect(Collectors.groupingBy(ShopCar::getName));
+        Map<String, List<ShopCar>> collect11 = shopCarList.stream().collect(Collectors.groupingBy(ShopCar::getName));
 
         //取出集合中两个字段封装在map，注意map的key必须唯一（即：shopCarList的name唯一）
         Map<String, Integer> collect2 = shopCarList.stream().collect(Collectors.toMap(ShopCar::getName, ShopCar::getCount));
