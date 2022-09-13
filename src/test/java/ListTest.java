@@ -71,7 +71,7 @@ public class ListTest {
         //按价格升序
         List<ShopCar> collect2 = list.stream().sorted(Comparator.comparing(ShopCar::getPrice)).collect(Collectors.toList());
 
-        // 空字段放最末尾写法
+        // 空字段放该字段排序的末尾写法
         list.sort(Comparator.comparing(ShopCar::getPrice, Comparator.nullsLast(Double::compareTo)).reversed());
 
         //多排序条件
