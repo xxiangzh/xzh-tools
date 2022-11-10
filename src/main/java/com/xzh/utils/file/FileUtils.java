@@ -220,6 +220,7 @@ public class FileUtils {
 
     /**
      * 将绝对路径拆分成 全名 + 文件名 + 文件扩展名 的数组
+     * eg: "D:\\123.jpg" ---> ["123.jpg", "123", ".jpg"]
      *
      * @param sourceAbsolutePath
      * @return
