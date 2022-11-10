@@ -208,13 +208,12 @@ public class FileUtils {
      * @return
      */
     public static String getNewAbsolutePath(String sourceAbsolutePath, String targetFolderDirectory) {
-        String newAbsolutePath;
+        int n = 1;
         String[] names = getFileNames(sourceAbsolutePath);
-        List<String> fileNameList = getFileNameList(targetFolderDirectory, false);
-        if (fileNameList != null && fileNameList.contains(names[0].toLowerCase())) {
-            newAbsolutePath = targetFolderDirectory + File.separator + getName(fileNameList, names, 1);
-        } else {
-            newAbsolutePath = targetFolderDirectory + File.separator + names[0];
+        String newAbsolutePath = targetFolderDirectory + File.separator + names[0];
+        // 循环找到不重复的文件名
+        while (new File(newAbsolutePath).isFile()) {
+            newAbsolutePath = targetFolderDirectory + File.separator + names[1] + "_" + n++ + names[2];
         }
         return newAbsolutePath;
     }
@@ -233,21 +232,5 @@ public class FileUtils {
         } else {
             return new String[]{fileName, fileName, ""};
         }
-    }
-
-    /**
-     * 找到不重复的文件名
-     *
-     * @param fileNameList
-     * @param names
-     * @param n
-     * @return
-     */
-    private static String getName(List<String> fileNameList, String[] names, int n) {
-        String name = names[1] + "_" + n + names[2];
-        if (fileNameList.contains(name.toLowerCase())) {
-            return getName(fileNameList, names, ++n);
-        }
-        return name;
     }
 }
