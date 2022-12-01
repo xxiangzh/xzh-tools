@@ -77,12 +77,14 @@ public class ListTest {
         Comparator.nullsLast(Double::compareTo);
 
         // 多排序条件
-        List<ShopCar> collect3 = list.stream()
-                .sorted(Comparator
-                        .comparing(ShopCar::getCount, Comparator.reverseOrder()) // 先按数量降序
-                        .thenComparing(ShopCar::getPrice) // 然后按价格升序
-                        .thenComparing(ShopCar::getName, Comparator.reverseOrder()) // 然后按名称降序
-                ).collect(Collectors.toList());
+        List<ShopCar> collect3 = list.stream().sorted(Comparator
+                // 先按数量降序（由于是降序，nullsFirst()方法会将null值放在后面）
+                .comparing(ShopCar::getCount, Comparator.nullsFirst(Integer::compareTo).reversed())
+                // 然后按价格升序（由于是升序，nullsFirst()方法会将null值放在前面）
+                .thenComparing(ShopCar::getPrice, Comparator.nullsFirst(Double::compareTo))
+                // 然后按名称降序
+                .thenComparing(ShopCar::getName, Comparator.reverseOrder())
+        ).collect(Collectors.toList());
     }
 
     private static void sum(List<ShopCar> list) {
