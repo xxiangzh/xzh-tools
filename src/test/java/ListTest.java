@@ -82,7 +82,7 @@ public class ListTest {
                 .comparing(ShopCar::getCount, Comparator.nullsFirst(Integer::compareTo).reversed())
                 // 然后按价格升序（由于是升序，nullsFirst()方法会将null值放在前面）
                 .thenComparing(ShopCar::getPrice, Comparator.nullsFirst(Double::compareTo))
-                // 然后按名称降序
+                // 然后按名称降序（如果不设置null值排序规则，字段为null会报错）
                 .thenComparing(ShopCar::getName, Comparator.reverseOrder())
         ).collect(Collectors.toList());
     }
