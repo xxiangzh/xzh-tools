@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  * @author 向振华
  * @date 2022/12/01 18:18
  */
-public class ListOrderTest {
+public class ListSortedTest {
 
     @Data
     @AllArgsConstructor
@@ -34,7 +34,7 @@ public class ListOrderTest {
         );
 
         // 多排序条件
-        List<Shop> orderShopList = list.stream().sorted(Comparator
+        List<Shop> sortedShopList = list.stream().sorted(Comparator
                 // 先按数量降序（由于是降序，nullsFirst()方法会将null值放在后面）
                 .comparing(Shop::getCount, Comparator.nullsFirst(Integer::compareTo).reversed())
                 // 然后按价格升序（由于是升序，nullsFirst()方法会将null值放在前面）
@@ -44,6 +44,6 @@ public class ListOrderTest {
         ).collect(Collectors.toList());
 
         // 排序结果
-        orderShopList.forEach(System.out::println);
+        sortedShopList.forEach(System.out::println);
     }
 }
