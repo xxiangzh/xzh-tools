@@ -83,7 +83,9 @@ public class HttpURLConnectionUtils {
                 }
             }
             //关闭远程连接
-            connection.disconnect();
+            if (connection != null) {
+                connection.disconnect();
+            }
         }
         return result.toString();
     }
@@ -184,7 +186,9 @@ public class HttpURLConnectionUtils {
                 }
             }
             //关闭连接
-            connection.disconnect();
+            if (connection != null) {
+                connection.disconnect();
+            }
         }
         return result.toString();
     }
