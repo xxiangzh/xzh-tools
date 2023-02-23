@@ -12,6 +12,7 @@ import java.util.List;
 public class FileZipUtilsTest {
 
     private static final String SOURCE_FOLDER_DIRECTORY = "D:\\Z";
+    private static final String PASSWORD = "123456";
     private static final String SOURCE = ".mp4";
     private static final String TXT = ".txt";
 
@@ -28,7 +29,7 @@ public class FileZipUtilsTest {
 
         List<File> fileList2 = FileUtils.getFileList(SOURCE_FOLDER_DIRECTORY, false);
         for (File file : fileList2) {
-            FileZipUtils.compress(file, "Xzh");
+            FileZipUtils.compress(file, PASSWORD);
         }
 
         List<File> fileList4 = FileUtils.getFileList(SOURCE_FOLDER_DIRECTORY + "\\zip", false);
@@ -51,7 +52,7 @@ public class FileZipUtilsTest {
 
         List<File> fileList2 = FileUtils.getFileList(SOURCE_FOLDER_DIRECTORY, false);
         for (File file : fileList2) {
-            FileZipUtils.uncompress(file, "Xzh");
+            FileZipUtils.uncompress(file, PASSWORD);
         }
 
         List<File> fileList4 = FileUtils.getFileList(SOURCE_FOLDER_DIRECTORY + "\\unzip", false);
