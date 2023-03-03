@@ -3,12 +3,41 @@ package com.xzh.utils.file;
 import java.io.File;
 
 /**
- * 文件工具
+ * 文件重命名工具
  *
  * @author: 向振华
  * @date: 2019/11/19 10:00
  */
 public class FileNameUtils {
+
+    /**
+     * 添加前缀
+     *
+     * @param file
+     * @param prefix
+     */
+    public static void addPrefix(File file, String prefix) {
+        String[] fileNames = FileUtils.getFileNames(file.getAbsolutePath());
+        fileNames[2] = prefix + fileNames[2];
+        String newAbsolutePath = fileNames[0] + fileNames[2] + fileNames[3];
+        // 重命名
+        file.renameTo(new File(newAbsolutePath));
+    }
+
+    /**
+     * 替换名称
+     *
+     * @param file
+     * @param target
+     * @param replacement
+     */
+    public static void replace(File file, String target, String replacement) {
+        String[] fileNames = FileUtils.getFileNames(file.getAbsolutePath());
+        fileNames[2] = fileNames[2].replace(target, replacement);
+        String newAbsolutePath = fileNames[0] + fileNames[2] + fileNames[3];
+        // 重命名
+        file.renameTo(new File(newAbsolutePath));
+    }
 
     /**
      * 重命名
@@ -18,34 +47,11 @@ public class FileNameUtils {
      * @param newExtensionName 新的文件扩展名（文件格式.后缀），为空时用旧文件扩展名
      */
     public static void rename(File file, String newName, String newExtensionName) {
-        // 文件夹路径
-        String parent = file.getParent();
-        // 文件名
-        String fileName = file.getName();
-        // 文件真实名（不含扩展名）
-        String realName = newName != null ? newName : fileName.substring(0, fileName.lastIndexOf("."));
-        // 文件扩展名
-        String extensionName = newExtensionName != null ? newExtensionName : fileName.substring(fileName.lastIndexOf("."));
-        // 路径名 = 文件夹路径 + 新名字 + 文件扩展名
-        String pathname = parent + File.separator + realName + extensionName;
+        String[] fileNames = FileUtils.getFileNames(file.getAbsolutePath());
+        fileNames[2] = newName != null ? newName : fileNames[2];
+        fileNames[3] = newExtensionName != null ? newExtensionName : fileNames[3];
+        String newAbsolutePath = fileNames[0] + fileNames[2] + fileNames[3];
         // 重命名
-        file.renameTo(new File(pathname));
-    }
-
-    /**
-     * 重命名拼接旧名字
-     *
-     * @param file
-     * @param newName
-     */
-    public static void renameSpliceOldName(File file, String newName) {
-        // 文件夹路径
-        String parent = file.getParent();
-        // 文件名
-        String name = file.getName();
-        // 路径名 = 文件夹路径 + 新名字 + 旧名字（含文件扩展名）
-        String pathname = parent + File.separator + newName + name;
-        // 重命名
-        file.renameTo(new File(pathname));
+        file.renameTo(new File(newAbsolutePath));
     }
 }
