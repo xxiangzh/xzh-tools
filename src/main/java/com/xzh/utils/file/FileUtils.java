@@ -24,9 +24,6 @@ public class FileUtils {
      */
     public static void copyByKey(String sourceFolderDirectory, String targetFolderDirectory, String... includeKeys) {
         List<File> fileList = getFileList(sourceFolderDirectory);
-        if (fileList == null || fileList.isEmpty()) {
-            return;
-        }
         for (File file : fileList) {
             boolean flag = true;
             for (String key : includeKeys) {
@@ -51,9 +48,6 @@ public class FileUtils {
      */
     public static void copyWithoutKey(String sourceFolderDirectory, String targetFolderDirectory, String... excludeKeys) {
         List<File> fileList = getFileList(sourceFolderDirectory);
-        if (fileList == null || fileList.isEmpty()) {
-            return;
-        }
         for (File file : fileList) {
             boolean flag = true;
             for (String key : excludeKeys) {
@@ -141,13 +135,13 @@ public class FileUtils {
         // 该文件目录下文件全部放入数组
         File[] files = dir.listFiles();
         if (files == null) {
-            return null;
+            return fileList;
         }
         for (File file : files) {
             if (file.isDirectory()) {
                 fileList.add(file);
                 List<File> innerFileList = getDirectoryList(file.getAbsolutePath());
-                if (innerFileList != null && !innerFileList.isEmpty()) {
+                if (!innerFileList.isEmpty()) {
                     fileList.addAll(innerFileList);
                 }
             }
@@ -167,12 +161,12 @@ public class FileUtils {
         // 该文件目录下文件全部放入数组
         File[] files = dir.listFiles();
         if (files == null) {
-            return null;
+            return fileList;
         }
         for (File file : files) {
             if (file.isDirectory()) {
                 List<File> innerFileList = getFileList(file.getAbsolutePath());
-                if (innerFileList != null && !innerFileList.isEmpty()) {
+                if (!innerFileList.isEmpty()) {
                     fileList.addAll(innerFileList);
                 }
             } else if (file.isFile()) {
@@ -212,7 +206,7 @@ public class FileUtils {
      */
     public static List<String> getFileNameList(String sourceFolderDirectory) {
         List<File> fileList = getFileList(sourceFolderDirectory);
-        return fileList != null ? fileList.stream().map(File::getName).collect(Collectors.toList()) : new ArrayList<>();
+        return fileList.stream().map(File::getName).collect(Collectors.toList());
     }
 
     /**
