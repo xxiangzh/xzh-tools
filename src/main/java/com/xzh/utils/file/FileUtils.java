@@ -219,28 +219,29 @@ public class FileUtils {
     public static String getNewAbsolutePath(String sourceAbsolutePath, String targetFolderDirectory) {
         int n = 1;
         String[] names = getFileNames(sourceAbsolutePath);
-        String newAbsolutePath = targetFolderDirectory + File.separator + names[0];
+        String newAbsolutePath = targetFolderDirectory + File.separator + names[1];
         // 循环找到不重复的文件名
         while (new File(newAbsolutePath).isFile()) {
-            newAbsolutePath = targetFolderDirectory + File.separator + names[1] + "_" + n++ + names[2];
+            newAbsolutePath = targetFolderDirectory + File.separator + names[2] + "_" + n++ + names[3];
         }
         return newAbsolutePath;
     }
 
     /**
-     * 将绝对路径拆分成 全名 + 文件名 + 文件扩展名 的数组
-     * eg: "D:\\123.jpg" ---> ["123.jpg", "123", ".jpg"]
+     * 将绝对路径拆分成 文件夹名 + 全名 + 文件名 + 文件扩展名 的数组
+     * eg: "D:\\A\\123.jpg" ---> ["D:\\A\\", "123.jpg", "123", ".jpg"]
      *
      * @param sourceAbsolutePath
      * @return
      */
     public static String[] getFileNames(String sourceAbsolutePath) {
+        String folderName = sourceAbsolutePath.substring(0, sourceAbsolutePath.lastIndexOf(File.separator) + 1);
         String fileName = sourceAbsolutePath.substring(sourceAbsolutePath.lastIndexOf(File.separator) + 1);
         int i = fileName.lastIndexOf(".");
         if (i != -1) {
-            return new String[]{fileName, fileName.substring(0, i), fileName.substring(i)};
+            return new String[]{folderName, fileName, fileName.substring(0, i), fileName.substring(i)};
         } else {
-            return new String[]{fileName, fileName, ""};
+            return new String[]{folderName, fileName, fileName, ""};
         }
     }
 }
