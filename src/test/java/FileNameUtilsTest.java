@@ -9,7 +9,7 @@ import java.util.List;
 public class FileNameUtilsTest {
 
     public static void main(String[] args) {
-        List<File> fileList = FileUtils.getFileList("E:\\A", true);
+        List<File> fileList = FileUtils.getFileList("E:\\A");
         for (File file : fileList) {
             String dateTime = MetadataUtils.getDateTime(file, "yyyy_MM_dd_HH_mm_");
             if (StringUtils.isBlank(dateTime)) {

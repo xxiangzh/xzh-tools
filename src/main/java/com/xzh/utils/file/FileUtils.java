@@ -23,7 +23,7 @@ public class FileUtils {
      * @param includeKeys           关键字 忽略大小写 不传参时复制所有
      */
     public static void copyByKey(String sourceFolderDirectory, String targetFolderDirectory, String... includeKeys) {
-        List<File> fileList = getFileList(sourceFolderDirectory, true);
+        List<File> fileList = getFileList(sourceFolderDirectory);
         if (fileList == null || fileList.isEmpty()) {
             return;
         }
@@ -50,7 +50,7 @@ public class FileUtils {
      * @param excludeKeys           排除的关键字 忽略大小写 不传参时复制所有
      */
     public static void copyWithoutKey(String sourceFolderDirectory, String targetFolderDirectory, String... excludeKeys) {
-        List<File> fileList = getFileList(sourceFolderDirectory, true);
+        List<File> fileList = getFileList(sourceFolderDirectory);
         if (fileList == null || fileList.isEmpty()) {
             return;
         }
@@ -133,10 +133,9 @@ public class FileUtils {
      * 获取文件夹列表
      *
      * @param sourceFolderDirectory 源文件夹目录
-     * @param isAll                 是否获取全部文件，true获取全部，false只获取路径下的文件，不包括路径下子文件夹的文件
      * @return 返回文件夹列表
      */
-    public static List<File> getDirectoryList(String sourceFolderDirectory, boolean isAll) {
+    public static List<File> getDirectoryList(String sourceFolderDirectory) {
         List<File> fileList = new ArrayList<>();
         File dir = new File(sourceFolderDirectory);
         // 该文件目录下文件全部放入数组
@@ -147,11 +146,9 @@ public class FileUtils {
         for (File file : files) {
             if (file.isDirectory()) {
                 fileList.add(file);
-                if (isAll) {
-                    List<File> innerFileList = getDirectoryList(file.getAbsolutePath(), true);
-                    if (innerFileList != null && !innerFileList.isEmpty()) {
-                        fileList.addAll(innerFileList);
-                    }
+                List<File> innerFileList = getDirectoryList(file.getAbsolutePath());
+                if (innerFileList != null && !innerFileList.isEmpty()) {
+                    fileList.addAll(innerFileList);
                 }
             }
         }
@@ -162,10 +159,9 @@ public class FileUtils {
      * 获取文件列表
      *
      * @param sourceFolderDirectory 源文件夹目录
-     * @param isAll                 是否获取全部文件，true获取全部，false只获取路径下的文件，不包括路径下子文件夹的文件
      * @return 返回文件列表
      */
-    public static List<File> getFileList(String sourceFolderDirectory, boolean isAll) {
+    public static List<File> getFileList(String sourceFolderDirectory) {
         List<File> fileList = new ArrayList<>();
         File dir = new File(sourceFolderDirectory);
         // 该文件目录下文件全部放入数组
@@ -175,11 +171,9 @@ public class FileUtils {
         }
         for (File file : files) {
             if (file.isDirectory()) {
-                if (isAll) {
-                    List<File> innerFileList = getFileList(file.getAbsolutePath(), true);
-                    if (innerFileList != null && !innerFileList.isEmpty()) {
-                        fileList.addAll(innerFileList);
-                    }
+                List<File> innerFileList = getFileList(file.getAbsolutePath());
+                if (innerFileList != null && !innerFileList.isEmpty()) {
+                    fileList.addAll(innerFileList);
                 }
             } else if (file.isFile()) {
                 fileList.add(file);
@@ -192,11 +186,10 @@ public class FileUtils {
      * 获取文件名列表（含扩展名）
      *
      * @param sourceFolderDirectory 源文件夹目录
-     * @param isAll                 是否获取全部文件，true获取全部，false只获取路径下的文件，不包括路径下子文件夹的文件
      * @return 返回文件名列表
      */
-    public static List<String> getFileNameList(String sourceFolderDirectory, boolean isAll) {
-        List<File> fileList = getFileList(sourceFolderDirectory, isAll);
+    public static List<String> getFileNameList(String sourceFolderDirectory) {
+        List<File> fileList = getFileList(sourceFolderDirectory);
         return fileList != null ? fileList.stream().map(File::getName).collect(Collectors.toList()) : new ArrayList<>();
     }
 

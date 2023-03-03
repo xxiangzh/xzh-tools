@@ -11,7 +11,7 @@ public class FileUtilsDeleteTest {
 
     public static void main(String[] args) {
         String sourceFolderDirectory = "E:\\新建文件夹";
-        List<File> fileList1 = FileUtils.getDirectoryList(sourceFolderDirectory, true);
+        List<File> fileList1 = FileUtils.getDirectoryList(sourceFolderDirectory);
         for (File file : fileList1) {
             String absolutePath = file.getAbsolutePath();
             System.out.println(absolutePath);
@@ -22,7 +22,7 @@ public class FileUtilsDeleteTest {
             }
         }
 
-        List<File> fileList2 = FileUtils.getFileList(sourceFolderDirectory, true);
+        List<File> fileList2 = FileUtils.getFileList(sourceFolderDirectory);
         for (File file : fileList2) {
             String absolutePath = file.getAbsolutePath();
             System.out.println(absolutePath);
