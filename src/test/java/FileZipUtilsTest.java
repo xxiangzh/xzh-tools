@@ -17,8 +17,8 @@ public class FileZipUtilsTest {
     private static final String TXT = ".txt";
 
     public static void main(String[] args) {
-        zip();
-//        unZip();
+//        zip();
+        unZip();
     }
 
     private static void zip() {
@@ -38,10 +38,10 @@ public class FileZipUtilsTest {
             FileNameUtils.rename(file, String.valueOf(i++), TXT);
         }
 
-//        List<File> fileList5 = FileUtils.getFileList(SOURCE_FOLDER_DIRECTORY);
-//        for (File file : fileList5) {
-//            FileNameUtils.rename(file, null, SOURCE);
-//        }
+        List<File> fileList5 = FileUtils.getCurrentFileList(SOURCE_FOLDER_DIRECTORY);
+        for (File file : fileList5) {
+            FileNameUtils.rename(file, null, SOURCE);
+        }
     }
 
     private static void unZip() {
@@ -60,9 +60,9 @@ public class FileZipUtilsTest {
             FileNameUtils.rename(file, null, SOURCE);
         }
 
-//        List<File> fileList5 = FileUtils.getFileList(SOURCE_FOLDER_DIRECTORY);
-//        for (File file : fileList5) {
-//            FileNameUtils.rename(file, null, TXT);
-//        }
+        List<File> fileList5 = FileUtils.getCurrentFileList(SOURCE_FOLDER_DIRECTORY);
+        for (File file : fileList5) {
+            FileNameUtils.rename(file, null, TXT);
+        }
     }
 }
