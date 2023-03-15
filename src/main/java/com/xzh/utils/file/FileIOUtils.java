@@ -8,49 +8,63 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * 文件导出工具
+ * 文件IO工具
  *
  * @author 向振华
  * @date 2021/11/09 14:30
  */
 @Slf4j
-public class FileExportUtils {
+public class FileIOUtils {
 
     /**
-     * 导出文件
+     * 读取文件
+     *
+     * @param pathname eg: D:\Z\123.txt
+     * @return
+     */
+    public static List<String> readLines(String pathname) {
+        try {
+            InputStream is = new FileInputStream(pathname);
+            return IOUtils.readLines(is, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            log.error("读取文件失败", e);
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * 写文件到本地
      *
      * @param targetFolderDirectory 目标文件夹目录 D:\xxx
      * @param fileName              文件名 abc.txt
      * @param content               导出内容文本 如果在content加入\n，文件也会自动换行
-     * @param charsetName           导出内容编码格式
      */
-    public static void exportLocal(String targetFolderDirectory, String fileName, String content, String charsetName) {
-        FileUtils.makeDirectory(targetFolderDirectory);
+    public static void writeLocal(String targetFolderDirectory, String fileName, String content) {
         try {
+            FileUtils.makeDirectory(targetFolderDirectory);
             OutputStream outputStream = new FileOutputStream(targetFolderDirectory + File.separator + fileName);
-            IOUtils.write(content.getBytes(charsetName), outputStream);
+            IOUtils.write(content.getBytes(StandardCharsets.UTF_8), outputStream);
         } catch (Exception e) {
             log.error("导出文件失败", e);
         }
     }
 
     /**
-     * 导出文件
+     * 写文件到响应体
      *
-     * @param fileName    文件名 abc.txt
-     * @param content     导出内容文本 如果在content加入\n，文件也会自动换行
-     * @param charsetName 导出内容编码格式
+     * @param fileName 文件名 abc.txt
+     * @param content  导出内容文本 如果在content加入\n，文件也会自动换行
      */
-    public static void exportResponse(String fileName, String content, String charsetName) {
+    public static void writeResponse(String fileName, String content) {
         try {
             OutputStream outputStream = getServletOutputStream(fileName);
-            IOUtils.write(content.getBytes(charsetName), outputStream);
+            IOUtils.write(content.getBytes(StandardCharsets.UTF_8), outputStream);
         } catch (Exception e) {
             log.error("导出文件失败", e);
         }
