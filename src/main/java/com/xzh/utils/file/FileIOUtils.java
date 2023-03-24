@@ -29,13 +29,14 @@ public class FileIOUtils {
      * @return
      */
     public static List<String> readLines(String pathname) {
+        List<String> list = new ArrayList<>();
         try {
-            InputStream is = new FileInputStream(pathname);
-            return IOUtils.readLines(is, StandardCharsets.UTF_8);
+            InputStream inputStream = new FileInputStream(pathname);
+            list = IOUtils.readLines(inputStream, StandardCharsets.UTF_8);
         } catch (Exception e) {
             log.error("读取文件失败", e);
-            return new ArrayList<>();
         }
+        return list;
     }
 
     /**
@@ -49,7 +50,8 @@ public class FileIOUtils {
         try {
             FileUtils.makeDirectory(targetFolderDirectory);
             OutputStream outputStream = new FileOutputStream(targetFolderDirectory + File.separator + fileName);
-            IOUtils.write(content.getBytes(StandardCharsets.UTF_8), outputStream);
+            byte[] data = content.getBytes(StandardCharsets.UTF_8);
+            IOUtils.write(data, outputStream);
         } catch (Exception e) {
             log.error("导出文件失败", e);
         }
@@ -64,7 +66,8 @@ public class FileIOUtils {
     public static void writeResponse(String fileName, String content) {
         try {
             OutputStream outputStream = getServletOutputStream(fileName);
-            IOUtils.write(content.getBytes(StandardCharsets.UTF_8), outputStream);
+            byte[] data = content.getBytes(StandardCharsets.UTF_8);
+            IOUtils.write(data, outputStream);
         } catch (Exception e) {
             log.error("导出文件失败", e);
         }
