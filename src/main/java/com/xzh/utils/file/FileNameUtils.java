@@ -28,8 +28,8 @@ public class FileNameUtils {
      * 替换名称
      *
      * @param file
-     * @param target
-     * @param replacement
+     * @param target 需要修改的字符串
+     * @param replacement 替换成什么
      */
     public static void replace(File file, String target, String replacement) {
         String[] fileNames = FileUtils.splitFileName(file.getAbsolutePath());
