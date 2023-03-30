@@ -45,11 +45,14 @@ public class ListTest {
         // 过滤出数量大于0的，然后将名字拼接成字符串
         String names = list.stream().filter(s -> s.getCount() > 0).map(ShopCar::getName).collect(Collectors.joining("、"));
 
-        // 只能去完全相同的实体
-        List<ShopCar> list1 = list.stream().distinct().collect(Collectors.toList());
+        // 过滤出名称是苹果的数据，然后返回名称是苹果集合
+        List<ShopCar> list1 = list.stream().filter(a -> a.getName().equals("苹果")).collect(Collectors.toList());
 
-        // 去按指定参数去重
-        List<ShopCar> list2 = list.stream().filter(distinctByKey(ShopCar::getName)).collect(Collectors.toList());
+        // 过滤掉重复的数据，返回去重后的集合，只能去完全相同的实体
+        List<ShopCar> list2 = list.stream().distinct().collect(Collectors.toList());
+
+        // 过滤掉重复的数据，返回去重后的集合，按指定参数去重
+        List<ShopCar> list3 = list.stream().filter(distinctByKey(ShopCar::getName)).collect(Collectors.toList());
     }
 
     private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
@@ -65,18 +68,13 @@ public class ListTest {
         list.sort((o1, o2) -> Double.compare(o2.getPrice(), o1.getPrice()));
         // 写法3，在原集合上排序，reversed() 表示降序
         list.sort(Comparator.comparing(ShopCar::getPrice).reversed());
-        // 写法4，原集合不变，需要返回排序后的集合
+        // 写法4，原集合不变，返回排序后的集合
         List<ShopCar> collect1 = list.stream().sorted(Comparator.comparing(ShopCar::getPrice).reversed()).collect(Collectors.toList());
 
-        // 按价格升序
+        // 按价格升序，原集合不变，返回排序后的集合
         List<ShopCar> collect2 = list.stream().sorted(Comparator.comparing(ShopCar::getPrice)).collect(Collectors.toList());
 
-        // 排序时，空字段放该字段排序的开头写法
-        Comparator.nullsFirst(Double::compareTo);
-        // 排序时，空字段放该字段排序的末尾写法
-        Comparator.nullsLast(Double::compareTo);
-
-        // 多排序条件
+        // 多排序条件，原集合不变，返回排序后的集合
         List<ShopCar> collect3 = list.stream().sorted(Comparator
                 // 先按数量降序（由于是降序，nullsFirst()方法会将null值放在后面）
                 .comparing(ShopCar::getCount, Comparator.nullsFirst(Integer::compareTo).reversed())
@@ -85,6 +83,11 @@ public class ListTest {
                 // 然后按名称降序（如果不设置null值排序规则，字段为null会报错）
                 .thenComparing(ShopCar::getName, Comparator.reverseOrder())
         ).collect(Collectors.toList());
+
+        // 排序时，空字段放该字段排序的开头写法
+        Comparator.nullsFirst(Double::compareTo);
+        // 排序时，空字段放该字段排序的末尾写法
+        Comparator.nullsLast(Double::compareTo);
     }
 
     private static void sum(List<ShopCar> list) {
