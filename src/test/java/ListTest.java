@@ -46,13 +46,13 @@ public class ListTest {
         String names = list.stream().filter(s -> s.getCount() > 0).map(ShopCar::getName).collect(Collectors.joining("、"));
 
         // 过滤出名称是苹果的数据，然后返回名称是苹果集合
-        List<ShopCar> list1 = list.stream().filter(a -> a.getName().equals("苹果")).collect(Collectors.toList());
+        List<ShopCar> collect1 = list.stream().filter(a -> a.getName().equals("苹果")).collect(Collectors.toList());
 
         // 过滤掉重复的数据，返回去重后的集合，只能去完全相同的实体
-        List<ShopCar> list2 = list.stream().distinct().collect(Collectors.toList());
+        List<ShopCar> collect2 = list.stream().distinct().collect(Collectors.toList());
 
         // 过滤掉重复的数据，返回去重后的集合，按指定参数去重
-        List<ShopCar> list3 = list.stream().filter(distinctByKey(ShopCar::getName)).collect(Collectors.toList());
+        List<ShopCar> collect3 = list.stream().filter(distinctByKey(ShopCar::getName)).collect(Collectors.toList());
     }
 
     private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
@@ -102,17 +102,17 @@ public class ListTest {
         // 取出集合中的某字段封装在list
         List<String> collect1 = list.stream().map(ShopCar::getName).collect(Collectors.toList());
 
+        // 将集合中数据聚合到map，name为key，shopCar为value，注意map的key必须唯一（即：shopCarList的name唯一）
+        Map<String, ShopCar> collect2 = list.stream().collect(Collectors.toMap(ShopCar::getName, Function.identity()));
+
         // 将集合中数据聚合到map，name为key，shopCar全部放在一个list中作为value
-        Map<String, List<ShopCar>> collect2 = list.stream().collect(Collectors.groupingBy(ShopCar::getName));
+        Map<String, List<ShopCar>> collect3 = list.stream().collect(Collectors.groupingBy(ShopCar::getName));
 
         // 取出集合中两个字段封装在map，注意map的key必须唯一（即：shopCarList的name唯一）
-        Map<String, Integer> collect3 = list.stream().collect(Collectors.toMap(ShopCar::getName, ShopCar::getCount));
+        Map<String, Integer> collect4 = list.stream().collect(Collectors.toMap(ShopCar::getName, ShopCar::getCount));
 
         // 将集合中数据计算后封装在map，注意map的key必须唯一（即：shopCarList的name唯一）
-        Map<String, Double> collect4 = list.stream().collect(Collectors.toMap(ShopCar::getName, s -> s.getPrice() * s.getCount()));
-
-        // 将集合中数据聚合到map，name为key，shopCar为value，注意map的key必须唯一（即：shopCarList的name唯一）
-        Map<String, ShopCar> collect5 = list.stream().collect(Collectors.toMap(ShopCar::getName, Function.identity()));
+        Map<String, Double> collect5 = list.stream().collect(Collectors.toMap(ShopCar::getName, s -> s.getPrice() * s.getCount()));
 
         // 统计数量和
         IntSummaryStatistics collect6 = list.stream().collect(Collectors.summarizingInt(ShopCar::getCount));
