@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzh.OrderMapper">
+
+    <select id="getOrderList" parameterType="com.xzh.OrderDTO" resultType="com.xzh.Order">
+        SELECT * FROM oms_order o WHERE 1=1
+        <if test="dto.tenantId != null and dto.tenantId != 0">
+            AND o.tenant_id = #{dto.tenantId}
+        </if>
+        <if test="dto.orderNo != null and dto.orderNo != ''">
+            AND o.order_no = #{dto.orderNo}
+        </if>
+        <if test="dto.isPenal != null">
+            AND o.is_penal = #{dto.isPenal}
+        </if>
+        <if test="dto.description != null and dto.description != ''">
+            and o.description LIKE CONCAT('%', #{dto.description}, '%')
+        </if>
+        <if test="dto.stateList != null and dto.stateList.size > 0">
+            AND o.state IN <foreach collection="dto.stateList" item="item" open="(" close=")" separator=","> #{item} </foreach>
+        </if>
+        <if test="dto.objectList != null and dto.objectList.size > 0">
+            AND (o.object_id, o.object_type) IN <foreach collection="dto.objectList" item="item" open="(" close=")" separator=","> (#{item.objectId}, #{item.objectType}) </foreach>
+        </if>
+    </select>
+
+</mapper>
