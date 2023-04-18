@@ -9,6 +9,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,7 @@ public class FileIOUtils {
      */
     public static void writeResponse(String fileName, String content) {
         try {
-            OutputStream outputStream = getServletOutputStream(fileName);
+            OutputStream outputStream = getOutputStream(fileName);
             byte[] data = content.getBytes(StandardCharsets.UTF_8);
             IOUtils.write(data, outputStream);
         } catch (Exception e) {
@@ -73,7 +74,14 @@ public class FileIOUtils {
         }
     }
 
-    private static ServletOutputStream getServletOutputStream(String fileName) throws IOException {
+    /**
+     * 获取输出流
+     *
+     * @param fileName
+     * @return
+     * @throws Exception
+     */
+    private static ServletOutputStream getOutputStream(String fileName) throws Exception {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
         assert servletRequestAttributes != null;
@@ -82,7 +90,7 @@ public class FileIOUtils {
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
         response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
-        response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
         return response.getOutputStream();
     }
 }
