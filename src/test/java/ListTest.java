@@ -98,10 +98,10 @@ public class ListTest {
         // 将集合中数据聚合到map，name为key，shopCar为value，注意map的key必须唯一（即：shopCarList的name唯一）
         Map<String, ShopCar> collect1 = list.stream().collect(Collectors.toMap(ShopCar::getName, Function.identity()));
 
-        // 将集合中数据聚合到map，name为key，shopCar为value，注意map的key可以不唯一（当出现一个key有多个value时，取第一个放入map）
+        // 将集合中数据聚合到map，name为key，shopCar为value，当出现一个key有多个value时，取第一个放入map
         Map<String, ShopCar> collect2 = list.stream().collect(Collectors.toMap(ShopCar::getName, Function.identity(), ((first, second) -> first)));
 
-        // 将集合中数据聚合到map，name为key，shopCar为value，注意map的key可以不唯一（当出现一个key有多个value时，全部放入map）
+        // 将集合中数据聚合到map，name为key，shopCar为value放入list集合
         Map<String, List<ShopCar>> collect3 = list.stream().collect(Collectors.groupingBy(ShopCar::getName));
 
         // 取出集合中的某字段封装在list
@@ -110,21 +110,24 @@ public class ListTest {
         // 取出集合中两个字段封装在map，注意map的key必须唯一（即：shopCarList的name唯一）
         Map<String, Integer> collect5 = list.stream().collect(Collectors.toMap(ShopCar::getName, ShopCar::getCount));
 
+        // 取出集合中两个字段封装在map，重复的key，采用相加的形式存入value
+        Map<String, Integer> collect6 = list.stream().collect(Collectors.toMap(ShopCar::getName, ShopCar::getCount, ((a, b) -> a + b)));
+
         // 将集合中数据计算后封装在map，注意map的key必须唯一（即：shopCarList的name唯一）
-        Map<String, Double> collect6 = list.stream().collect(Collectors.toMap(ShopCar::getName, s -> s.getPrice() * s.getCount()));
+        Map<String, Double> collect7 = list.stream().collect(Collectors.toMap(ShopCar::getName, s -> s.getPrice() * s.getCount()));
 
         // 统计数量和
-        IntSummaryStatistics collect7 = list.stream().collect(Collectors.summarizingInt(ShopCar::getCount));
+        IntSummaryStatistics collect8 = list.stream().collect(Collectors.summarizingInt(ShopCar::getCount));
 
         //统计价格和
-        DoubleSummaryStatistics collect8 = list.stream().collect(Collectors.summarizingDouble(ShopCar::getPrice));
+        DoubleSummaryStatistics collect9 = list.stream().collect(Collectors.summarizingDouble(ShopCar::getPrice));
 
         // 统计操作
-        DoubleSummaryStatistics collect9 = list.stream().mapToDouble(s -> s.getPrice() * s.getCount()).summaryStatistics();
-        collect9.getCount();// 商品个数
-        collect9.getAverage();// 平均花费
-        collect9.getMax();// 最高花费
-        collect9.getMin();// 最低花费
-        collect9.getSum();// 总共花费
+        DoubleSummaryStatistics collect10 = list.stream().mapToDouble(s -> s.getPrice() * s.getCount()).summaryStatistics();
+        collect10.getCount();// 商品个数
+        collect10.getAverage();// 平均花费
+        collect10.getMax();// 最高花费
+        collect10.getMin();// 最低花费
+        collect10.getSum();// 总共花费
     }
 }
