@@ -35,8 +35,7 @@ public class HttpClientUtils {
      * @return
      */
     public static String doGet(String url, Map<String, String> map) {
-        HttpGet httpGet = new HttpGet(buildUri(url, map));
-        return execute(httpGet);
+        return doGet(url, map, null);
     }
 
     /**
@@ -61,10 +60,7 @@ public class HttpClientUtils {
      * @return
      */
     public static String doPost(String url, String json) {
-        HttpPost httpPost = new HttpPost(url);
-        httpPost.setEntity(new StringEntity(json, "UTF-8"));
-        httpPost.addHeader("Content-Type", "application/json;charset=UTF-8");
-        return execute(httpPost);
+        return doPost(url, json, null);
     }
 
     /**
@@ -102,9 +98,7 @@ public class HttpClientUtils {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpResponse response = null;
         try {
-            // 执行请求
             response = httpClient.execute(httpUriRequest);
-            //请求体内容
             String result = EntityUtils.toString(response.getEntity(), "UTF-8");
             log.info("HttpClientUtils-response: " + result);
             return result;
