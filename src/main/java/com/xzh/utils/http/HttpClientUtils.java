@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * http请求
+ * HTTP请求
  *
  * @author: 向振华
  * @date: 2020/06/08 16:44
@@ -30,37 +30,17 @@ public class HttpClientUtils {
     /**
      * get请求
      *
-     * @param url 请求路径
-     * @param map 请求参数
-     * @return
-     */
-    public static String doGet(String url, Map<String, String> map) {
-        return doGet(url, map, null);
-    }
-
-    /**
-     * get请求
-     *
      * @param url     请求路径
      * @param map     请求参数
      * @param headers 请求头
      * @return
      */
-    public static String doGet(String url, Map<String, String> map, Map<String, String> headers) {
+    public static String get(String url, Map<String, String> map, Map<String, String> headers) {
         HttpGet httpGet = new HttpGet(buildUri(url, map));
         addHeader(httpGet, headers);
+        log.info("HTTP请求 url " + url);
+        log.info("HTTP请求 request " + map);
         return execute(httpGet);
-    }
-
-    /**
-     * post请求
-     *
-     * @param url  请求路径
-     * @param json 请求参数json格式
-     * @return
-     */
-    public static String doPost(String url, String json) {
-        return doPost(url, json, null);
     }
 
     /**
@@ -71,42 +51,35 @@ public class HttpClientUtils {
      * @param headers 请求头
      * @return
      */
-    public static String doPost(String url, String json, Map<String, String> headers) {
+    public static String post(String url, String json, Map<String, String> headers) {
         HttpPost httpPost = new HttpPost(url);
         httpPost.setEntity(new StringEntity(json, "UTF-8"));
         httpPost.addHeader("Content-Type", "application/json;charset=UTF-8");
         addHeader(httpPost, headers);
+        log.info("HTTP请求 url " + url);
+        log.info("HTTP请求 request " + json);
         return execute(httpPost);
     }
 
-    /**
-     * 执行请求并返回string值
-     *
-     * @param httpUriRequest
-     * @return
-     */
     private static String execute(HttpUriRequest httpUriRequest) {
-        try {
-            return doExecute(httpUriRequest);
-        } catch (Exception e) {
-            log.error("HttpClientUtils-Exception: " + httpUriRequest.getURI(), e);
-            throw new RuntimeException("http请求异常！");
-        }
-    }
-
-    private static String doExecute(HttpUriRequest httpUriRequest) throws Exception {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpResponse response = null;
         try {
             response = httpClient.execute(httpUriRequest);
             String result = EntityUtils.toString(response.getEntity(), "UTF-8");
-            log.info("HttpClientUtils-response: " + result);
+            log.info("HTTP请求 response " + result);
             return result;
+        } catch (Exception e) {
+            log.error("HTTP请求 exception ", e);
+            throw new RuntimeException("HTTP请求异常！");
         } finally {
-            if (response != null) {
-                response.close();
+            try {
+                if (response != null) {
+                    response.close();
+                }
+                httpClient.close();
+            } catch (Exception ignored) {
             }
-            httpClient.close();
         }
     }
 
@@ -129,7 +102,7 @@ public class HttpClientUtils {
                 return new URIBuilder(url).build();
             }
         } catch (Exception e) {
-            log.error("HttpClientUtils-Exception: " + url + map, e);
+            log.error("URI创建异常 exception: " + url + map, e);
             throw new RuntimeException("URI创建异常！");
         }
     }
@@ -147,5 +120,4 @@ public class HttpClientUtils {
             }
         }
     }
-
 }
