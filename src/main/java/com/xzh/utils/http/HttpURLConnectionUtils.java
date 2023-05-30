@@ -18,20 +18,10 @@ public class HttpURLConnectionUtils {
      * Http get请求
      *
      * @param httpUrl 连接
-     * @return 响应数据
-     */
-    public static String doGet(String httpUrl) {
-        return doGet(httpUrl, null);
-    }
-
-    /**
-     * Http get请求
-     *
-     * @param httpUrl 连接
      * @param headers 请求头
      * @return 响应数据
      */
-    public static String doGet(String httpUrl, Map<String, String> headers) {
+    public static String get(String httpUrl, Map<String, String> headers) {
         //链接
         HttpURLConnection connection = null;
         InputStream is = null;
@@ -95,21 +85,10 @@ public class HttpURLConnectionUtils {
      *
      * @param httpUrl 连接
      * @param param   参数
-     * @return 响应数据
-     */
-    public static String doPost(String httpUrl, String param) {
-        return doPost(httpUrl, param, null);
-    }
-
-    /**
-     * Http post请求
-     *
-     * @param httpUrl 连接
-     * @param param   参数
      * @param headers 请求头
      * @return 响应数据
      */
-    public static String doPost(String httpUrl, String param, Map<String, String> headers) {
+    public static String post(String httpUrl, String param, Map<String, String> headers) {
         StringBuilder result = new StringBuilder();
         //连接
         HttpURLConnection connection = null;
