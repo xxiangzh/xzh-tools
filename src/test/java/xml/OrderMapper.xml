@@ -22,6 +22,9 @@
         <if test="dto.objectList != null and dto.objectList.size > 0">
             AND (o.object_id, o.object_type) IN <foreach collection="dto.objectList" item="item" open="(" close=")" separator=","> (#{item.objectId}, #{item.objectType}) </foreach>
         </if>
+        <if test="dto.dateList != null and dto.dateList.size > 0">
+            AND MONTH(o.pay_time) IN <foreach collection="dto.dateList" item="item" open="(" close=")" separator=","> MONTH(#{item}) </foreach>
+        </if>
     </select>
 
 </mapper>
