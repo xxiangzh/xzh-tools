@@ -191,7 +191,7 @@ public class ExcelUtils {
      * @return
      */
     private static String rectifyFileName(String fileName) {
-        String time = "_" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String time = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         if (fileName == null || fileName.isEmpty()) {
             fileName = "";
         }
