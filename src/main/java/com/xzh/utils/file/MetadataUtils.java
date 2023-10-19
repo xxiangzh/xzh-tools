@@ -52,6 +52,10 @@ public class MetadataUtils {
             else if ("QuickTime Video".equals(directoryName) && "Creation Time".equals(tagName)) {
                 return DateUtils.stringToString(description, "E MMM dd HH:mm:ss +08:00 yyyy", pattern);
             }
+            // file
+            else if ("File".equals(directoryName) && "File Modified Date".equals(tagName)) {
+                return DateUtils.stringToString(description, "E MMM dd HH:mm:ss +08:00 yyyy", pattern);
+            }
         }
         return null;
     }
