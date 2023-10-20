@@ -10,6 +10,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 /**
@@ -118,7 +119,7 @@ public class HttpParamUtils {
 
         try {
             ServletInputStream inputStream = request.getInputStream();
-            return IoUtil.read(inputStream, characterEncoding);
+            return IoUtil.read(inputStream, Charset.forName(characterEncoding));
         } catch (Exception e) {
             log.error("请求体读取失败 ", e);
             return "";
