@@ -45,7 +45,7 @@ public class MetadataUtils {
                 return DateUtils.stringToString(description, "yyyy:MM:dd HH:mm:ss", pattern);
             }
             // mp4
-            else if ("MP4 Video".equals(directoryName) && "Creation Time".equals(tagName)) {
+            else if ("MP4 Video".equals(directoryName) && "Creation Time".equals(tagName) && !description.contains("1904")) {
                 return DateUtils.stringToString(description, "E MMM dd HH:mm:ss +08:00 yyyy", pattern);
             }
             // mov
