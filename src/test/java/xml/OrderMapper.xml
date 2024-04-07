@@ -16,6 +16,12 @@
         <if test="dto.description != null and dto.description != ''">
             and o.description LIKE CONCAT('%', #{dto.description}, '%')
         </if>
+        <if test="dto.settleTimeStart != null">
+            AND o.settle_time &gt;= #{settleTimeStart}
+        </if>
+        <if test="dto.settleTimeEnd != null">
+            AND o.settle_time &lt;= #{settleTimeEnd}
+        </if>
         <if test="dto.stateList != null and dto.stateList.size > 0">
             AND o.state IN <foreach collection="dto.stateList" item="item" open="(" close=")" separator=","> #{item} </foreach>
         </if>
