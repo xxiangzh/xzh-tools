@@ -4,23 +4,29 @@
 
     <select id="getOrderList" parameterType="com.xzh.OrderDTO" resultType="com.xzh.Order">
         SELECT * FROM oms_order o WHERE 1=1
+        <if test="dto.tenantId == null">
+            AND o.tenant_id = 1
+        </if>
         <if test="dto.tenantId != null and dto.tenantId != 0">
             AND o.tenant_id = #{dto.tenantId}
         </if>
         <if test="dto.orderNo != null and dto.orderNo != ''">
             AND o.order_no = #{dto.orderNo}
         </if>
-        <if test="dto.isPenal != null">
-            AND o.is_penal = #{dto.isPenal}
+        <if test="dto.isValid != null">
+            AND o.is_valid = #{dto.isValid}
+        </if>
+        <if test="dto.isValid != null and !dto.isValid">
+            AND o.is_valid = 0
         </if>
         <if test="dto.description != null and dto.description != ''">
             and o.description LIKE CONCAT('%', #{dto.description}, '%')
         </if>
         <if test="dto.settleTimeStart != null">
-            AND o.settle_time &gt;= #{settleTimeStart}
+            AND o.settle_time &gt;= #{dto.settleTimeStart}
         </if>
         <if test="dto.settleTimeEnd != null">
-            AND o.settle_time &lt;= #{settleTimeEnd}
+            AND o.settle_time &lt;= #{dto.settleTimeEnd}
         </if>
         <if test="dto.stateList != null and dto.stateList.size > 0">
             AND o.state IN <foreach collection="dto.stateList" item="item" open="(" close=")" separator=","> #{item} </foreach>
