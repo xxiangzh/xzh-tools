@@ -31,6 +31,9 @@
         <if test="dto.stateList != null and dto.stateList.size > 0">
             AND o.state IN <foreach collection="dto.stateList" item="item" open="(" close=")" separator=","> #{item} </foreach>
         </if>
+        <if test="dto.stateList == null or dto.stateList.size == 0">
+            AND o.state = 'PAID'
+        </if>
         <if test="dto.objectList != null and dto.objectList.size > 0">
             AND (o.object_id, o.object_type) IN <foreach collection="dto.objectList" item="item" open="(" close=")" separator=","> (#{item.objectId}, #{item.objectType}) </foreach>
         </if>
