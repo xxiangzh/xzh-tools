@@ -20,7 +20,7 @@
             AND o.is_valid = 0
         </if>
         <if test="dto.description != null and dto.description != ''">
-            and o.description LIKE CONCAT('%', #{dto.description}, '%')
+            AND o.description LIKE CONCAT('%', #{dto.description}, '%')
         </if>
         <if test="dto.settleTimeStart != null">
             AND o.settle_time &gt;= #{dto.settleTimeStart}
