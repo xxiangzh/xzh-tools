@@ -1,10 +1,9 @@
 package com.xzh.utils.secure;
 
-import org.apache.commons.lang3.StringUtils;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
+import org.redisson.codec.JsonJacksonCodec;
 import org.redisson.config.Config;
-import org.redisson.config.SingleServerConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,14 +26,13 @@ public class RedissonConfig {
     @Value("${spring.redis.password}")
     private String password;
 
-    @Bean
+    @Bean(destroyMethod = "shutdown")
     public RedissonClient redissonClient() {
         Config config = new Config();
-        SingleServerConfig singleServerConfig = config.useSingleServer();
-        singleServerConfig.setAddress("redis://" + host + ":" + port);
-        if (StringUtils.isNotBlank(password)) {
-            singleServerConfig.setPassword(password);
-        }
+        config.useSingleServer()
+                .setAddress("redis://" + host + ":" + port)
+                .setPassword(password == null || password.trim().isEmpty() ? null : password);
+        config.setCodec(new JsonJacksonCodec());
         return Redisson.create(config);
     }
 }
