@@ -1,11 +1,13 @@
 import bean.ShopCar;
 import com.google.common.collect.Lists;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * stream demo
@@ -94,6 +96,13 @@ public class ListTest {
     }
 
     private static void collect(List<ShopCar> list) {
+
+        // 直接对集合判空累加
+//        BigDecimal sumAmount = Optional.ofNullable(list)
+//                .map(List::stream)
+//                .orElseGet(Stream::empty)
+//                .map(o -> Optional.ofNullable(o.getAmount()).orElse(BigDecimal.ZERO))
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         // 将集合中数据聚合到map，name为key，shopCar为value，注意map的key必须唯一（即：shopCarList的name唯一）
         Map<String, ShopCar> collect1 = list.stream().collect(Collectors.toMap(ShopCar::getName, Function.identity()));
